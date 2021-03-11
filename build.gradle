@@ -1,15 +1,13 @@
 plugins {
-  // id 'java'
   id 'application'
 }
 
 apply plugin: 'application'
-mainClassName = 'RunEdgeConvert'
 
-// version '1.0-SNAPSHOT'
-
-ext {
-  javaMainClass = 'RunEdgeConvert'
+jar {
+   manifest {
+      attributes 'Main-Class': 'RunEdgeConvert'
+   }
 }
 
 test {
