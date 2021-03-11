@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Grade build
-      run gradlew build
+      run: gradlew build
     # - name: Build Java Code
     #   run: javac -cp lib/hamcrest-core-1.3.jar:lib/junit-4.12.jar *.java
     # - name: Run Unit Tests
