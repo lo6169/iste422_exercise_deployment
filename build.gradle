@@ -1,13 +1,12 @@
 plugins {
-  id 'java'
+  // id 'java'
   id 'application'
 }
 
-application {
-  mainClass.set('RunEdgeConvert') 
-}
+apply plugin: 'application'
+mainClassName = 'RunEdgeConvert'
 
-version '1.0-SNAPSHOT'
+// version '1.0-SNAPSHOT'
 
 ext {
   javaMainClass = 'RunEdgeConvert'
