@@ -1,0 +1,50 @@
+1. CreateDDLMySQL
+--------------------------
+Student:
+
+
+
+2. EdgeConnector
+--------------------------
+# Test for ths class have been partially implemented previously
+
+
+3. EdgeConvertCreateDDL
+--------------------------
+Student:
+
+
+
+4. EdgeConverterFileParser
+--------------------------
+Student:
+
+
+
+5. EdgeConverterGUI
+--------------------------
+# Implements the GUI. Contains four inner classes
+
+
+
+6. EdgeField
+--------------------------
+Student:
+
+
+
+7. EdgeTable
+--------------------------
+Student:
+
+
+
+8. ExampleFileFilter
+--------------------------
+Student:
+
+
+
+9. RunEdgeConverter
+--------------------------
+# Nothing to test in this class as it is just an Application Runner
