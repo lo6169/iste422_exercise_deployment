@@ -17,7 +17,9 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
       sb = new StringBuffer();
    } //CreateDDLMySQL(EdgeTable[], EdgeField[])
    
-   public CreateDDLMySQL() { //default constructor with empty arg list for to allow output dir to be set before there are table and field objects
+   public CreateDDLMySQL() {
+      // default constructor with empty arg list for to allow output
+      // dir to be set before there are table and field objects
       
    }
    
@@ -26,8 +28,10 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
       databaseName = generateDatabaseName();
       sb.append("CREATE DATABASE " + databaseName + ";\r\n");
       sb.append("USE " + databaseName + ";\r\n");
-      for (int boundCount = 0; boundCount <= maxBound; boundCount++) { //process tables in order from least dependent (least number of bound tables) to most dependent
-         for (int tableCount = 0; tableCount < numBoundTables.length; tableCount++) { //step through list of tables
+      for (int boundCount = 0; boundCount <= maxBound; boundCount++) {
+         //process tables in order from least dependent (least number of bound tables) to most dependent
+         for (int tableCount = 0; tableCount < numBoundTables.length; tableCount++) {
+            //step through list of tables
             if (numBoundTables[tableCount] == boundCount) { //
                sb.append("CREATE TABLE " + tables[tableCount].getName() + " (\r\n");
                int[] nativeFields = tables[tableCount].getNativeFieldsArray();
@@ -35,11 +39,13 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                boolean[] primaryKey = new boolean[nativeFields.length];
                int numPrimaryKey = 0;
                int numForeignKey = 0;
-               for (int nativeFieldCount = 0; nativeFieldCount < nativeFields.length; nativeFieldCount++) { //print out the fields
+               for (int nativeFieldCount = 0; nativeFieldCount < nativeFields.length; nativeFieldCount++) {
+                  //print out the fields
                   EdgeField currentField = getField(nativeFields[nativeFieldCount]);
                   sb.append("\t" + currentField.getName() + " " + strDataType[currentField.getDataType()]);
                   if (currentField.getDataType() == 0) { //varchar
-                     sb.append("(" + currentField.getVarcharValue() + ")"); //append varchar length in () if data type is varchar
+                     sb.append("(" + currentField.getVarcharValue() + ")");
+                     //append varchar length in () if data type is varchar
                   }
                   if (currentField.getDisallowNull()) {
                      sb.append(" NOT NULL");
@@ -126,7 +132,8 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
             return "";
          }
          if (databaseName.equals("")) {
-            JOptionPane.showMessageDialog(null, "You must select a name for your database.");
+            JOptionPane.showMessageDialog(null,
+              "You must select a name for your database.");
          }
       } while (databaseName.equals(""));
       return databaseName;

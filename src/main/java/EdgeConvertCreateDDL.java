@@ -20,7 +20,9 @@ public abstract class EdgeConvertCreateDDL {
       initialize();
    } //EdgeConvertCreateDDL(EdgeTable[], EdgeField[])
    
-   public EdgeConvertCreateDDL() { //default constructor with empty arg list for to allow output dir to be set before there are table and field objects
+   public EdgeConvertCreateDDL() {
+      // default constructor with empty arg list for to allow output
+      // dir to be set before there are table and field objects
       
    } //EdgeConvertCreateDDL()
 

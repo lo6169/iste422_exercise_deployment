@@ -3,7 +3,6 @@
 Student:
 
 
-
 2. EdgeConnector
 --------------------------
 # Test for ths class have been partially implemented previously
@@ -12,8 +11,12 @@ Student:
 3. EdgeConvertCreateDDL
 --------------------------
 Student:
-
-
+# Abstract class
+- EdgeConvertCreateDDL()
+- EdgeConvertCreateDDL(EdgeTable[] tables, EdgeField[] fields)
+- initialize()
+- EdgeTable getTable(int numFigure)
+- EdgeField getField(int numFigure)
 
 4. EdgeConverterFileParser
 --------------------------
