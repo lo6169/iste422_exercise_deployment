@@ -10,83 +10,95 @@ public class EdgeFieldTest
   @Before
   public void setUp() throws Exception
   {
-    testObj = new EdgeField("String");
-    System.out.println("Testing EdgeField...");
-
-    System.out.println("Test 1: Ensure getters are working...");
-    testGetTableID();
-    testGetTableBound();
-
-    System.out.println("Test 2: Ensure setters are working...");
-
-
-    System.out.println("Test 3: Ensure errors are thrown when needed...");
+    testObj = new EdgeField("1|2|3|testStyle1|testStyle2");
   }
 
-  // Test some of the getters
+  // Test the getters
 
-  /*
-   The tableID should automatically be set to 0
-   Check if it is. If it isn't, throw an error.
-   */
-  public boolean testGetTableID()
+  @Test
+  public void testGetTableID()
   {
-    if (testObj.getTableID() == 0)
-    {
-      System.out.println("Test 1.1 passed - getTableID.");
-      return true;
-    }
-    else
-    {
-      System.out.println("Test 1.1 failed - getTableID.");
-      return false;
-    }
+    assertEquals("tableID initialized to 0, testing to see if 0.",0,testObj.getTableID());
   }
 
-  /*
-   The tableBound should automatically be set to 0
-   Check if it is. If it isn't, throw an error.
-   */
-  public boolean testGetTableBound()
+  @Test
+  public void testGetTableBound()
   {
-    if (testObj.getTableBound() == 0)
-    {
-      System.out.println("Test 1.2 passed - getTableBound.");
-      return true;
-    }
-    else
-    {
-      System.out.println("Test 1.2 failed - getTableBound.");
-      return false;
-    }
+    assertEquals("tableBound initialized to 0, testing to see if 0.",0,testObj.getTableBound());
   }
 
-  // Test some of the setters
+  @Test
+  public void testGetFieldBound()
+  {
+    assertEquals("fieldBound initialized to 0, testing to see if 0.",0,testObj.getFieldBound());
+  }
 
-  /*
-  If the getters passed, then we need to check
-  to ensure that the setters work.
-  Set the table ID to a random integer, and
-  check to see that it returns the same one.
-   */
-  public boolean testSetTableID()
+  @Test
+  public void testGetDisallowNull()
+  {
+    assertEquals("disallowNull should be set to false, testing.",false,testObj.getDisallowNull());
+  }
+
+  @Test
+  public void testGetIsPrimaryKey()
+  {
+    assertEquals("primaryKey should be set to false, testing.",false,testObj.getIsPrimaryKey());
+  }
+
+  @Test
+  public void testGetDefaultValue()
+  {
+    assertEquals("default should be set to empty string, testing.","",testObj.getDefaultValue());
+  }
+
+
+
+
+
+
+
+  // Test the setters
+
+  @Test
+  public void testSetTableID()
   {
     testObj.setTableID(27);
-    if (testObj.getTableID() == 27)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    assertEquals("tableID set to 27, testing to see if 27.",27,testObj.getTableID());
   }
 
-  // Test the toString function
-  public boolean testToString()
+  @Test
+  public void testSetTableBound()
   {
-    return false;
+    testObj.setTableBound(15);
+    assertEquals("tableBound set to 15, testing to see if 15.",15,testObj.getTableBound());
   }
 
+  @Test
+  public void testSetFieldBound()
+  {
+    testObj.setFieldBound(82);
+    assertEquals("fieldBound set to 28, testing to see if 82.",82,testObj.getFieldBound());
+  }
+
+  @Test
+  public void testSetDisallowNull()
+  {
+    testObj.setDisallowNull(true);
+    assertEquals("disallowNull should be set to true, testing.",true,testObj.getDisallowNull());
+  }
+
+  @Test
+  public void testSetIsPrimaryKey()
+  {
+    testObj.setIsPrimaryKey(true);
+    assertEquals("primaryKey should be set to true, testing.",true,testObj.getIsPrimaryKey());
+  }
+
+  @Test
+  public void testSetDefaultValue()
+  {
+    testObj.setDefaultValue("new default");
+    assertEquals("default should be set to new default, testing.","new default",testObj.getDefaultValue());
+  }
 
 }
