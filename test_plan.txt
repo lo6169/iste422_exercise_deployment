@@ -24,14 +24,7 @@ Student:
 
 
 
-5. EdgeConverterGUI
---------------------------
-# Implements the GUI. Contains four inner classes
-# Does not need to be tested yet
-
-
-
-6. EdgeField
+5. EdgeField
 --------------------------
 Student: Grey Olson
 # Plan:
@@ -44,19 +37,6 @@ Student: Grey Olson
 
 
 
-7. EdgeTable
+6. EdgeTable
 --------------------------
 Student:
-
-
-
-8. ExampleFileFilter
---------------------------
-Student:
-# Nothing to test, this is an example.
-
-
-
-9. RunEdgeConverter
---------------------------
-# Nothing to test in this class as it is just an Application Runner
