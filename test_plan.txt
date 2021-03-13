@@ -27,12 +27,14 @@ Student:
 5. EdgeConverterGUI
 --------------------------
 # Implements the GUI. Contains four inner classes
+# Does not need to be tested yet
 
 
 
 6. EdgeField
 --------------------------
-Student:
+Student: Grey Olson
+# Creating testing.
 
 
 
@@ -45,6 +47,7 @@ Student:
 8. ExampleFileFilter
 --------------------------
 Student:
+# Nothing to test, this is an example.
 
 
 
