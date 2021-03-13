@@ -1,53 +1,225 @@
-1. CreateDDLMySQL
+1. CreateDDLMySQL - Student Name
 --------------------------
-Student:
+- CreateDDLMySQL(EdgeTable[] inputTables, EdgeField[] inputFields)
+	- Returns a CreateDDLMySQL object with the inputTables and the inputFields set appropriately
+
+- CreateDDLMySQL()
+	- Returns a CreateDDLMySQL object with class variables set to the default value
+
+-convertStrBooleanToInt(String input)
+	- Does it return 1 for a given input of “true”?
+	- Does it return  0 for a given input of “false”?
+
+- getProductName()
+	- Does it return the product name that was given in the constructor?
+
+- getSQLString()
+	- Does it generate CREATE DATABASE and USE statements even when no tables are passed in?
+	- Does it generate SQL when tables are passed in?
+	- Does it generate SQL when empty tables are passed in?
+
+- generateDatabaseName()
+	- Does it prompt the user for a database name that isn’t an empty string? 
 
 
-2. EdgeConnector
+
+2. EdgeConvertCreateDDL - Student Name
 --------------------------
-# Test for ths class have been partially implemented previously
 
-
-3. EdgeConvertCreateDDL
---------------------------
-Student:
 # Abstract class
+
 - EdgeConvertCreateDDL()
+	- Does it return an EdgeConvertCreateDDL object initialized with the default values?
+
 - EdgeConvertCreateDDL(EdgeTable[] tables, EdgeField[] fields)
+- Does it return an EdgeConvertCreateDDL object initialized with the passed values?
+	- What if the EdgeTable array is null?
+	- What if the EdgeField array is null?
+
 - initialize()
+	- what if the “tables” class variable is empty?
+	- is numBoundTables set up properly to be an int array of size tables.length?
+	- is numBoundTables properly updated?
+	- is maxBound initialized properly?
+	- is the sb variable initialized with a new StringBuffer?
+
 - EdgeTable getTable(int numFigure)
+	- What if numFigure was null?
+	- Does it return null if there are no tables?
+	- Does it return the field if the numFigure matches?
+
 - EdgeField getField(int numFigure)
+	- What if numFigurue is null?
+	- Does it return null if there are no tables?
+	- Does it return the field if the numFigure matches?
 
-4. EdgeConverterFileParser
+
+3. EdgeConnector - Student Name
 --------------------------
-Student:
+- EdgeConnector(String inputString)
+
+	- Does it return a EdgeConnector object using the input of inputString to set the class variables?
+	- What if the inputString is blank?
+	- What if the inputString is null?
+
+- getNumConnector()
+	- Does it return the value determined in the constructor as an Int? 
+- getEndPoint1()
+	- Does it return the value determined in the constructor as an Int? 
+- getEndPoint2()
+	- Does it return the value determined in the constructor as an Int? 
+- getEndStyle1()
+	- Does it return the value determined in the constructor as a String? 
+- getEndStyle2()
+	- Does it return the value determined in the constructor as a String? 
+- getIsEP1Field()
+	-Does it return the value determined in the constructor as a Boolean? 
+- getIsEP2Field()
+	-Does it return the value determined in the constructor as a Boolean? 
+- getIsEP1Table()
+	-Does it return the value determined in the constructor as a Boolean? 
+- getIsEP2Table()
+	-Does it return the value determined in the constructor as a Boolean? 
+- setIsEP1Field(boolean value)
+	- Does it set the isEP1Field value correctly?
+
+- setIsEP2Field(boolean value)
+	- Does it set the isEP2Field value correctly?
+	- What if it’s null?
+
+- setIsEP1Table(boolean value)
+	- Does it set the isEP1Table value correctly?
+	- What if it’s null?
+
+- setIsEP2Table(boolean value)
+	- Does it set the isEP2able value correctly?
+	- What if it’s null?
 
 
-
-5. EdgeConverterGUI
+4. EdgeField - Student Name
 --------------------------
-# Implements the GUI. Contains four inner classes
+- EdgeField(String inputString)
+	- Does it return an EdgeFiled Object with the parameters initialized to their default values?
+	- What if the inputString is blank?
+	- What if the inputString is null?
 
+- getNumFigure
+	- Does it return the value passed into constructor?
 
+- getName
+	- Does it return the value passed into constructor?
 
-6. EdgeField
+- getTableID
+	- Does it return the current value?
+
+- setTableID
+	- Does it alter the table id with the int passed in?
+	- What if int passed in is negative?
+
+- getTableBound
+	- Does it return the current table bound?
+
+- setTableBound
+	- Does it alter the tableBound?
+	- What if tableBound is negative?
+
+- getFieldBound
+	- Does it return the current fieldBound?
+
+- setFieldBound
+	- Does it alter the fieldBound?
+	- What is fieldBound is negative?
+
+- getDisallowNull
+	- Does it return the current disallowNull status?
+
+- setDisallowNull
+	- Does it alter the disallowNull status?
+
+- getIsPrimaryKey
+	- Does it return the current isPrimaryKey status?
+
+- setIsPrimaryKey
+	- Does it alter the status of isPrimaryKey?
+
+- getDefaultValue
+	- Does it successfully change the value to the provided string?
+
+- setDefaultValue
+	- Does it successfully change the value to the provided string?
+
+- getVarcharValue
+	- Does it return the current varcharValue?
+
+- setVarcharValue
+	- Does it alter the varcharValue correctly?
+	- What if value passed in is greater than 0?
+	- What if value passed in equals 0?
+	- What is value passed in is less than 0?
+
+- getDataType
+	- Does it return the current dataType?
+
+- setDataType
+	- Does it alter the dataType correctly?
+	- What if someone passes in an invalid option?
+
+- getStrDataType
+	- Does it return the array of dataTypes?
+
+- toString
+	- Does it return a string?
+	- Does it add delimiters as expected?
+	- Does it correctly display variables?
+5. EdgeTable
 --------------------------
-Student:
+- EdgeTable(String inputString)
+	- Does it returns an EdgeTable object.
+	- Is the Figure number set correctly?
+	- Is the Name set correctly?
+	- Is the RelatedTables array list populated correctly?
+	- Is the NativeFields array list populated correctly?
 
+- int getNumFigure()
+	- Returns integer representing NumFigure
 
+- String getName()
+	- Returns string representing Name
 
-7. EdgeTable
---------------------------
-Student:
+- void addRelatedTable(int relatedTable)
+	- Does the integer passed show up in the related tables array?
+	- Does passing Zero break anything?
+	- Does passing a negative number break anything?
+	- Does passing a large integer break anything?
 
+- int[] getRelatedTablesArray()
+	- Does it return an array of related tables?
 
+- int[] getRelatedFieldsArray()
+	- Does it return a related fields array?
 
-8. ExampleFileFilter
---------------------------
-Student:
+- void setRelatedField(int index, int relatedValue)
+	- Does it add the related value passed in into the relatedFields array at the index passed in? 
 
+- int[] getNativeFieldsArray()
+	- Does it return the Native Fields Array? 
 
+- void addNativeField(int value)
+	- Does it add an integer passed in into the Native Filed Array List?
+	- Does it add the value passed in to the Native Field array list?
 
-9. RunEdgeConverter
---------------------------
-# Nothing to test in this class as it is just an Application Runner
+- void moveFieldUp(int index)
+	- Does the element at the specified index get moved up correctly?
+	- Does the position of the element resin the same if Zero index passed in? (Already first position?)
+  	- What if the index is out of bound?
+
+- void moveFieldDown(int index)
+	- Does it move the position field with index passed in one position closer to the end of the array?
+	- Does the position of the element remain the same if it is already at the last position?
+	- What if the index is out of bound?
+
+- void makeArrays()
+	- Does it convert NativeFields and RelatedTables array lists to nativeFields, relatedTables, and relatedFields arrays correctly?
+
+- String toString()
+	- Does it return a correct string representation of the object?
