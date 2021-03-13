@@ -34,7 +34,13 @@ Student:
 6. EdgeField
 --------------------------
 Student: Grey Olson
-# Creating testing.
+# Plan:
+# What to test:
+* Make sure the getters/setters work properly
+* Make sure the toString function returns what it needs to
+* Test to see if we submit something out of bounds for setDataType it returns an error
+* Test to see if setVarCharValue doesn't reset when it's less than or equal to 0
+# Test creation in progress...
 
 
 
