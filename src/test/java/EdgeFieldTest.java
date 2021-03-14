@@ -14,7 +14,6 @@ public class EdgeFieldTest
   }
 
   // Test the getters
-
   @Test
   public void testGetTableID()
   {
@@ -51,14 +50,20 @@ public class EdgeFieldTest
     assertEquals("default should be set to empty string, testing.","",testObj.getDefaultValue());
   }
 
+  @Test
+  public void testGetVarcharValue()
+  {
+    assertEquals("Varchar should be set to 1, testing.",1,testObj.getVarcharValue());
+  }
 
-
-
-
+  @Test
+  public void testGetDatatype()
+  {
+    assertEquals("Datatype should be set to 0, testing.",0,testObj.getDataType());
+  }
 
 
   // Test the setters
-
   @Test
   public void testSetTableID()
   {
@@ -101,4 +106,56 @@ public class EdgeFieldTest
     assertEquals("default should be set to new default, testing.","new default",testObj.getDefaultValue());
   }
 
+  @Test
+  public void testSetVarcharValue()
+  {
+    testObj.setVarcharValue(2);
+    assertEquals("Varchar should be set to 2, testing.",2, testObj.getVarcharValue());
+  }
+
+  @Test
+  public void testSetVarcharValueNeg()
+  {
+    testObj.setVarcharValue(1);
+    testObj.setVarcharValue(-3);
+    assertEquals("Varchar is set to a negative, testing to see if it is the last number set greater than 0.",1, testObj.getVarcharValue());
+  }
+
+  @Test
+  public void testSetVarcharValueZero()
+  {
+    testObj.setVarcharValue(1);
+    testObj.setVarcharValue(0);
+    assertEquals("Varchar is set to zero, testing to see if it is the last number set greater than 0.",1, testObj.getVarcharValue());
+  }
+
+  @Test
+  public void testSetDatatype()
+  {
+    testObj.setDataType(1);
+    assertEquals("Datatype should be set to 1, testing.",1,testObj.getDataType());
+  }
+
+  @Test
+  public void testSetDatatypeOOB()
+  {
+    testObj.setDataType(0);
+    testObj.setDataType(12);
+    assertEquals("Datatype should be set to out of bounds, should return 0, testing.",0,testObj.getDataType());
+  }
+
+  @Test
+  public void testSetDatatypeNeg()
+  {
+    testObj.setDataType(0);
+    testObj.setDataType(-1);
+    assertEquals("Datatype should be set to negative, should return 0, testing.",0,testObj.getDataType());
+  }
+
+  // Test toString to see if it returns anything
+  @Test
+  public void testToString()
+  {
+    assertNotEquals("Testing to see if toString returns a value", "", testObj.toString());
+  }
 }
