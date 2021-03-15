@@ -1,4 +1,13 @@
-1. CreateDDLMySQL - Student Name
+To run the tests run:
+# ./gradlew test
+The results can be seen in the output and also by running:
+# open build/reports/tests/test/index.html
+A clone of the repo can be made by running:
+# git clone https://github.com/vladkd/iste422-group-project.git
+
+Catherine Liu did not participate in the test plan not in writing tests.
+
+1. CreateDDLMySQL - Blake Wesel
 --------------------------
 - CreateDDLMySQL(EdgeTable[] inputTables, EdgeField[] inputFields)
 	- Returns a CreateDDLMySQL object with the inputTables and the inputFields set appropriately
@@ -23,7 +32,7 @@
 
 
 
-2. EdgeConvertCreateDDL - Student Name
+2. EdgeConvertCreateDDL - Omar Abdullahi
 --------------------------
 
 # Abstract class
@@ -59,7 +68,7 @@
 
 
 
-4. EdgeField - Grey
+4. EdgeField - Grey Olson
 --------------------------
 - EdgeField(String inputString)
 	- Does it return an EdgeFiled Object with the parameters initialized to their default values?
@@ -135,7 +144,7 @@
 	- Does it add delimiters as expected?
 	- Does it correctly display variables?
 
-5. EdgeTable
+5. EdgeTable - Vladimir Martynenko
 --------------------------
 - EdgeTable(String inputString)
 	- Does it returns an EdgeTable object.
