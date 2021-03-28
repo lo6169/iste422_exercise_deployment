@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CreateDDLMySQLTest {
-	/*
+
   CreateDDLMySQL testObj;
 
   @Before
@@ -73,5 +73,5 @@ public class CreateDDLMySQLTest {
 	@Test
 	public void testConvertStrBooleanToIntFalse(){
 		assertEquals("Should convert false to 0:", testObj.convertStrBooleanToInt("false"), 0);
-	}*/
+	}
 }
