@@ -38,6 +38,11 @@ public class CreateDDLMySQLTest {
 		testObj = bootstrapTables(true);
 		assertNotEquals("SQL string should not be empty:", testObj.getSQLString(), "");
 	}
+
+  @Test
+  public void testColumnNamesAreOutputed() {
+    testObj 
+  }
 	
 	public CreateDDLMySQL bootstrapTables(boolean setup){
 		EdgeTable table1 = new EdgeTable("1|Table1");
