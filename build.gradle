@@ -1,27 +1,24 @@
-plugins {
-  id 'application'
+apply plugin: 'java'
+
+repositories {
+	mavenCentral()
 }
 
-apply plugin: 'application'
-
-jar {
-   manifest {
-      attributes 'Main-Class': 'RunEdgeConvert'
-   }
+dependencies {
+	compile 'org.apache.logging.log4j:log4j-api:2.13.3'
+	compile 'org.apache.logging.log4j:log4j-core:2.13.3'
+	testImplementation 'junit:junit:4.12'
 }
 
 test {
-  testLogging.showStandardStreams = true
+	testLogging.showStandardStreams = true
   beforeTest { descriptor ->
      logger.lifecycle("Running test: ${descriptor}")
   }
 }
 
-repositories {
-  mavenCentral()
+task run(type: JavaExec) {
+	main = 'RunEdgeConvert'
+	classpath = sourceSets.main.runtimeClasspath
 }
 
-dependencies {
-  testImplementation 'junit:junit:4.12'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8.2'
-}
