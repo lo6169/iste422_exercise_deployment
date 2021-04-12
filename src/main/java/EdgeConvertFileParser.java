@@ -248,8 +248,8 @@ public class EdgeConvertFileParser {
          tempField.setFieldBound(Integer.parseInt(stField.nextToken()));
          tempField.setDataType(Integer.parseInt(stField.nextToken()));
          tempField.setVarcharValue(Integer.parseInt(stField.nextToken()));
-         tempField.setIsPrimaryKey(Boolean.valueOf(stField.nextToken()).booleanValue());
-         tempField.setDisallowNull(Boolean.valueOf(stField.nextToken()).booleanValue());
+         tempField.setIsPrimaryKey(Boolean.valueOf(stField.nextToken()));//.booleanValue());
+         tempField.setDisallowNull(Boolean.valueOf(stField.nextToken()));//.booleanValue());
          if (stField.hasMoreTokens()) { //Default Value may not be defined
             tempField.setDefaultValue(stField.nextToken());
          }
@@ -259,19 +259,23 @@ public class EdgeConvertFileParser {
 
    private void makeArrays() { //convert ArrayList objects into arrays of the appropriate Class type
       if (alTables != null) {
-         tables = (EdgeTable[])alTables.toArray(new EdgeTable[alTables.size()]);
+         tables = alTables.toArray(new EdgeTable[alTables.size()]);
+         // tables = (EdgeTable[])alTables.toArray(new EdgeTable[alTables.size()]);
       }
       if (alFields != null) {
-         fields = (EdgeField[])alFields.toArray(new EdgeField[alFields.size()]);
+         fields = alFields.toArray(new EdgeField[alFields.size()]);
+         // fields = (EdgeField[])alFields.toArray(new EdgeField[alFields.size()]);
       }
       if (alConnectors != null) {
-         connectors = (EdgeConnector[])alConnectors.toArray(new EdgeConnector[alConnectors.size()]);
+         connectors = alConnectors.toArray(new EdgeConnector[alConnectors.size()]);
+         // connectors = (EdgeConnector[])alConnectors.toArray(new EdgeConnector[alConnectors.size()]);
       }
    }
    
    private boolean isTableDup(String testTableName) {
       for (int i = 0; i < alTables.size(); i++) {
-         EdgeTable tempTable = (EdgeTable)alTables.get(i);
+         EdgeTable tempTable = alTables.get(i);
+         // EdgeTable tempTable = (EdgeTable)alTables.get(i);
          if (tempTable.getName().equals(testTableName)) {
             return true;
          }
@@ -292,7 +296,7 @@ public class EdgeConvertFileParser {
          FileReader fr = new FileReader(inputFile);
          br = new BufferedReader(fr);
          //test for what kind of file we have
-         currentLine = br.readLine().trim();
+         String currentLine = br.readLine().trim();
          // numLine++;
          if (currentLine.startsWith(EDGE_ID)) { //the file chosen is an Edge Diagrammer file
             this.parseEdgeFile(); //parse the file
