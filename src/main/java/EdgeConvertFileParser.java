@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class EdgeConvertFileParser {
    private File parseFile;
-   private FileReader fr;
    private BufferedReader br;
    private String currentLine;
    private ArrayList<EdgeTable> alTables;
@@ -285,7 +284,7 @@ public class EdgeConvertFileParser {
    
    public void openFile(File inputFile) {
       try {
-         fr = new FileReader(inputFile);
+         FileReader fr = new FileReader(inputFile);
          br = new BufferedReader(fr);
          //test for what kind of file we have
          currentLine = br.readLine().trim();
