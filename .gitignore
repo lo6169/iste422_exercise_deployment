@@ -34,3 +34,4 @@ target
 .project
 .gradle/
 .settings/
+bin/
