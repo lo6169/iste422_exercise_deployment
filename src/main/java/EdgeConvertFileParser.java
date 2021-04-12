@@ -20,8 +20,6 @@ public class EdgeConvertFileParser {
    private int numConnector;
    // private int numNativeRelatedFields;
    // private int numLine;
-   private String endStyle1;
-   private String endStyle2;
    public static final String EDGE_ID = "EDGE Diagram File"; //first line of .edg files should be this
    public static final String SAVE_ID = "EdgeConvert Save File"; //first line of save files should be this
    public static final String DELIM = "|";
@@ -115,9 +113,9 @@ public class EdgeConvertFileParser {
             currentLine = br.readLine().trim(); // not interested in SuppressEnd1
             currentLine = br.readLine().trim(); // not interested in SuppressEnd2
             currentLine = br.readLine().trim(); // End1
-            endStyle1 = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the End1 parameter
+            String endStyle1 = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the End1 parameter
             currentLine = br.readLine().trim(); // End2
-            endStyle2 = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the End2 parameter
+            String endStyle2 = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the End2 parameter
 
             do { //advance to end of record
                currentLine = br.readLine().trim();
