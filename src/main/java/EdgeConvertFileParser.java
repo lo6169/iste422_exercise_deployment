@@ -19,11 +19,19 @@ public class EdgeConvertFileParser {
    private String text;
    private String tableName;
    private String fieldName;
-   private boolean isEntity, isAttribute, isUnderlined = false;
-   private int numFigure, numConnector, numFields, numTables, numNativeRelatedFields;
-   private int endPoint1, endPoint2;
+   private boolean isEntity;
+   private boolean isAttribute;
+   private boolean isUnderlined = false;
+   private int numFigure;
+   private int numConnector;
+   private int numFields;
+   private int numTables;
+   private int numNativeRelatedFields;
+   private int endPoint1;
+   private int endPoint2;
    private int numLine;
-   private String endStyle1, endStyle2;
+   private String endStyle1;
+   private String endStyle2;
    public static final String EDGE_ID = "EDGE Diagram File"; //first line of .edg files should be this
    public static final String SAVE_ID = "EdgeConvert Save File"; //first line of save files should be this
    public static final String DELIM = "|";
