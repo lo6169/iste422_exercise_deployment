@@ -12,7 +12,6 @@ public class EdgeConvertFileParser {
    private ArrayList<EdgeConnector> alConnectors;
    private EdgeTable[] tables;
    private EdgeField[] fields;
-   private EdgeField tempField;
    private EdgeConnector[] connectors;
    private String style;
    private String text;
@@ -100,7 +99,7 @@ public class EdgeConvertFileParser {
                   alTables.add(new EdgeTable(numFigure + DELIM + text));
                }
                if (isAttribute) { //create a new EdgeField object and add it to the alFields ArrayList
-                  tempField = new EdgeField(numFigure + DELIM + text);
+                  EdgeField tempField = new EdgeField(numFigure + DELIM + text);
                   tempField.setIsPrimaryKey(isUnderlined);
                   alFields.add(tempField);
                }
