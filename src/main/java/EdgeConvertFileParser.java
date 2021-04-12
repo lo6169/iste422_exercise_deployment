@@ -18,8 +18,8 @@ public class EdgeConvertFileParser {
    private boolean isUnderlined = false;
    private int numFigure;
    private int numConnector;
-   private int numNativeRelatedFields;
-   private int numLine;
+   // private int numNativeRelatedFields;
+   // private int numLine;
    private String endStyle1;
    private String endStyle2;
    public static final String EDGE_ID = "EDGE Diagram File"; //first line of .edg files should be this
@@ -35,7 +35,7 @@ public class EdgeConvertFileParser {
       isEntity = false;
       isAttribute = false;
       parseFile = constructorFile;
-      numLine = 0;
+      // numLine = 0;
       this.openFile(parseFile);
    }
 
@@ -291,7 +291,7 @@ public class EdgeConvertFileParser {
          br = new BufferedReader(fr);
          //test for what kind of file we have
          currentLine = br.readLine().trim();
-         numLine++;
+         // numLine++;
          if (currentLine.startsWith(EDGE_ID)) { //the file chosen is an Edge Diagrammer file
             this.parseEdgeFile(); //parse the file
             br.close();
