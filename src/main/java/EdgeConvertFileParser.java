@@ -13,7 +13,6 @@ public class EdgeConvertFileParser {
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeConnector[] connectors;
-   private String fieldName;
    private boolean isEntity;
    private boolean isAttribute;
    private boolean isUnderlined = false;
@@ -240,7 +239,7 @@ public class EdgeConvertFileParser {
       while ((currentLine = br.readLine()) != null) {
          stField = new StringTokenizer(currentLine, DELIM);
          numFigure = Integer.parseInt(stField.nextToken());
-         fieldName = stField.nextToken();
+         String fieldName = stField.nextToken();
          tempField = new EdgeField(numFigure + DELIM + fieldName);
          tempField.setTableID(Integer.parseInt(stField.nextToken()));
          tempField.setTableBound(Integer.parseInt(stField.nextToken()));
