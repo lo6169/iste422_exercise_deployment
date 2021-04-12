@@ -193,7 +193,11 @@ public class EdgeConvertFileParser {
    
    public void parseSaveFile() throws IOException { //this method is unclear and confusing in places
       int numFields;
-      StringTokenizer stTables, stNatFields, stRelFields, stNatRelFields, stField;
+      StringTokenizer stTables;
+      StringTokenizer stNatFields;
+      StringTokenizer stRelFields;
+      // StringTokenizer stNatRelFields;
+      StringTokenizer stField;
       EdgeTable tempTable;
       EdgeField tempField;
       currentLine = br.readLine();
