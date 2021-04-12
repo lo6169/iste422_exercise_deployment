@@ -13,7 +13,6 @@ public class EdgeConvertFileParser {
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeConnector[] connectors;
-   private String tableName;
    private String fieldName;
    private boolean isEntity;
    private boolean isAttribute;
@@ -206,7 +205,7 @@ public class EdgeConvertFileParser {
          numFigure = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1)); //get the Table number
          currentLine = br.readLine(); //this should be "{"
          currentLine = br.readLine(); //this should be "TableName"
-         tableName = currentLine.substring(currentLine.indexOf(" ") + 1);
+         String tableName = currentLine.substring(currentLine.indexOf(" ") + 1);
          tempTable = new EdgeTable(numFigure + DELIM + tableName);
          
          currentLine = br.readLine(); //this should be the NativeFields list
