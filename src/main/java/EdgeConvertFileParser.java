@@ -41,7 +41,7 @@ public class EdgeConvertFileParser {
          currentLine = currentLine.trim();
          if (currentLine.startsWith("Figure ")) { //this is the start of a Figure entry
             numFigure = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1)); //get the Figure number
-            currentLine = br.readLine().trim(); // this should be "{"
+            br.readLine(); // this should be "{"
             currentLine = br.readLine().trim();
             if (!currentLine.startsWith("Style")) { // this is to weed out other Figures, like Labels
                continue;
@@ -101,16 +101,16 @@ public class EdgeConvertFileParser {
          } // if("Figure")
          if (currentLine.startsWith("Connector ")) { //this is the start of a Connector entry
             numConnector = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1)); //get the Connector number
-            currentLine = br.readLine().trim(); // this should be "{"
-            currentLine = br.readLine().trim(); // not interested in Style
+            br.readLine(); // this should be "{"
+            br.readLine(); // not interested in Style
             currentLine = br.readLine().trim(); // Figure1
             int endPoint1 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
             currentLine = br.readLine().trim(); // Figure2
             int endPoint2 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
-            currentLine = br.readLine().trim(); // not interested in EndPoint1
-            currentLine = br.readLine().trim(); // not interested in EndPoint2
-            currentLine = br.readLine().trim(); // not interested in SuppressEnd1
-            currentLine = br.readLine().trim(); // not interested in SuppressEnd2
+            br.readLine(); // not interested in EndPoint1
+            br.readLine(); // not interested in EndPoint2
+            br.readLine(); // not interested in SuppressEnd1
+            br.readLine(); // not interested in SuppressEnd2
             currentLine = br.readLine().trim(); // End1
             String endStyle1 = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the End1 parameter
             currentLine = br.readLine().trim(); // End2
@@ -201,11 +201,11 @@ public class EdgeConvertFileParser {
       EdgeTable tempTable;
       EdgeField tempField;
       String currentLine;
-      currentLine = br.readLine();
+      br.readLine();
       currentLine = br.readLine(); //this should be "Table: "
       while (currentLine.startsWith("Table: ")) {
          numFigure = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1)); //get the Table number
-         currentLine = br.readLine(); //this should be "{"
+         br.readLine(); //this should be "{"
          currentLine = br.readLine(); //this should be "TableName"
          String tableName = currentLine.substring(currentLine.indexOf(" ") + 1);
          tempTable = new EdgeTable(numFigure + DELIM + tableName);
@@ -234,8 +234,8 @@ public class EdgeConvertFileParser {
          }
 
          alTables.add(tempTable);
-         currentLine = br.readLine(); //this should be "}"
-         currentLine = br.readLine(); //this should be "\n"
+         br.readLine(); //this should be "}"
+         br.readLine(); //this should be "\n"
          currentLine = br.readLine(); //this should be either the next "Table: ", #Fields#
       }
       while ((currentLine = br.readLine()) != null) {
