@@ -8,7 +8,9 @@ public class EdgeConvertFileParser {
    private FileReader fr;
    private BufferedReader br;
    private String currentLine;
-   private ArrayList alTables, alFields, alConnectors;
+   private ArrayList alTables;
+   private ArrayList alFields;
+   private ArrayList alConnectors;
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeField tempField;
