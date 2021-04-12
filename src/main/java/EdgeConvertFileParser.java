@@ -22,7 +22,6 @@ public class EdgeConvertFileParser {
    private boolean isUnderlined = false;
    private int numFigure;
    private int numConnector;
-   private int numTables;
    private int numNativeRelatedFields;
    private int endPoint1;
    private int endPoint2;
@@ -221,7 +220,7 @@ public class EdgeConvertFileParser {
          
          currentLine = br.readLine(); //this should be the RelatedTables list
          stTables = new StringTokenizer(currentLine.substring(currentLine.indexOf(" ") + 1), DELIM);
-         numTables = stTables.countTokens();
+         int numTables = stTables.countTokens();
          for (int i = 0; i < numTables; i++) {
             tempTable.addRelatedTable(Integer.parseInt(stTables.nextToken()));
          }
