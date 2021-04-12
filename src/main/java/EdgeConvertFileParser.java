@@ -20,8 +20,6 @@ public class EdgeConvertFileParser {
    private int numFigure;
    private int numConnector;
    private int numNativeRelatedFields;
-   private int endPoint1;
-   private int endPoint2;
    private int numLine;
    private String endStyle1;
    private String endStyle2;
@@ -110,9 +108,9 @@ public class EdgeConvertFileParser {
             currentLine = br.readLine().trim(); // this should be "{"
             currentLine = br.readLine().trim(); // not interested in Style
             currentLine = br.readLine().trim(); // Figure1
-            endPoint1 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
+            int endPoint1 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
             currentLine = br.readLine().trim(); // Figure2
-            endPoint2 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
+            int endPoint2 = Integer.parseInt(currentLine.substring(currentLine.indexOf(" ") + 1));
             currentLine = br.readLine().trim(); // not interested in EndPoint1
             currentLine = br.readLine().trim(); // not interested in EndPoint2
             currentLine = br.readLine().trim(); // not interested in SuppressEnd1
@@ -132,8 +130,11 @@ public class EdgeConvertFileParser {
    } // parseEdgeFile()
    
    private void resolveConnectors() { //Identify nature of Connector endpoints
-      int endPoint1, endPoint2;
-      int fieldIndex = 0, table1Index = 0, table2Index = 0;
+      int endPoint1;
+      int endPoint2;
+      int fieldIndex = 0;
+      int table1Index = 0;
+      int table2Index = 0;
       for (int cIndex = 0; cIndex < connectors.length; cIndex++) {
          endPoint1 = connectors[cIndex].getEndPoint1();
          endPoint2 = connectors[cIndex].getEndPoint2();
