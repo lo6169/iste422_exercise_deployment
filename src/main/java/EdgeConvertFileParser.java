@@ -13,7 +13,6 @@ public class EdgeConvertFileParser {
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeConnector[] connectors;
-   private String style;
    private String text;
    private String tableName;
    private String fieldName;
@@ -55,7 +54,7 @@ public class EdgeConvertFileParser {
             if (!currentLine.startsWith("Style")) { // this is to weed out other Figures, like Labels
                continue;
             } else {
-               style = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the Style parameter
+               String style = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")); //get the Style parameter
                if (style.startsWith("Relation")) { //presence of Relations implies lack of normalization
                   JOptionPane.showMessageDialog(null, "The Edge Diagrammer file\n" + parseFile + "\ncontains relations.  Please resolve them and try again.");
                   EdgeConvertGUI.setReadSuccess(false);
