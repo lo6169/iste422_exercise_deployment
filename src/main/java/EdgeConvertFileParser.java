@@ -13,7 +13,6 @@ public class EdgeConvertFileParser {
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeConnector[] connectors;
-   private String text;
    private String tableName;
    private String fieldName;
    private boolean isEntity;
@@ -70,7 +69,7 @@ public class EdgeConvertFileParser {
                   continue;
                }
                currentLine = br.readLine().trim(); //this should be Text
-               text = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")).replaceAll(" ", ""); //get the Text parameter
+               String text = currentLine.substring(currentLine.indexOf("\"") + 1, currentLine.lastIndexOf("\"")).replaceAll(" ", ""); //get the Text parameter
                if (text.equals("")) {
                   JOptionPane.showMessageDialog(null, "There are entities or attributes with blank names in this diagram.\nPlease provide names for them and try again.");
                   EdgeConvertGUI.setReadSuccess(false);
