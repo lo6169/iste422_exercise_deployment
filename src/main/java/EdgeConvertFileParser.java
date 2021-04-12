@@ -23,7 +23,6 @@ public class EdgeConvertFileParser {
    private boolean isUnderlined = false;
    private int numFigure;
    private int numConnector;
-   private int numFields;
    private int numTables;
    private int numNativeRelatedFields;
    private int endPoint1;
@@ -201,6 +200,7 @@ public class EdgeConvertFileParser {
    } // resolveConnectors()
    
    public void parseSaveFile() throws IOException { //this method is unclear and confusing in places
+      int numFields;
       StringTokenizer stTables, stNatFields, stRelFields, stNatRelFields, stField;
       EdgeTable tempTable;
       EdgeField tempField;
