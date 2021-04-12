@@ -3,14 +3,13 @@ import java.util.*;
 import javax.swing.*;
 
 public class EdgeConvertFileParser {
-   //private String filename = "test.edg";
    private File parseFile;
    private FileReader fr;
    private BufferedReader br;
    private String currentLine;
-   private ArrayList alTables;
-   private ArrayList alFields;
-   private ArrayList alConnectors;
+   private ArrayList<EdgeTable> alTables;
+   private ArrayList<EdgeField> alFields;
+   private ArrayList<EdgeConnector> alConnectors;
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeField tempField;
