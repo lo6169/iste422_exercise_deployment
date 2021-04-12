@@ -5,7 +5,6 @@ import javax.swing.*;
 public class EdgeConvertFileParser {
    private File parseFile;
    private BufferedReader br;
-   private String currentLine;
    private ArrayList<EdgeTable> alTables;
    private ArrayList<EdgeField> alFields;
    private ArrayList<EdgeConnector> alConnectors;
@@ -37,6 +36,7 @@ public class EdgeConvertFileParser {
    }
 
    public void parseEdgeFile() throws IOException {
+      String currentLine;
       while ((currentLine = br.readLine()) != null) {
          currentLine = currentLine.trim();
          if (currentLine.startsWith("Figure ")) { //this is the start of a Figure entry
@@ -200,6 +200,7 @@ public class EdgeConvertFileParser {
       StringTokenizer stField;
       EdgeTable tempTable;
       EdgeField tempField;
+      String currentLine;
       currentLine = br.readLine();
       currentLine = br.readLine(); //this should be "Table: "
       while (currentLine.startsWith("Table: ")) {
