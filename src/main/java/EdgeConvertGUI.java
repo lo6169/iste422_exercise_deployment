@@ -81,7 +81,7 @@ public class EdgeConvertGUI {
    static JLabel jlabDTTables = new JLabel("All Tables", SwingConstants.CENTER);
    static DefaultListModel<String> dlmDTTablesAll = new DefaultListModel<>();
    static DefaultListModel<String> dlmDTFieldsTablesAll = new DefaultListModel<>();
-   static JList jlDTTablesAll;
+   static JList jlDTTablesAll = new JList(dlmDTTablesAll);
    static JList<DefaultListModel<String>> jlDTFieldsTablesAll = new JList(dlmDTFieldsTablesAll);
    static JScrollPane jspDTTablesAll = new JScrollPane(jlDTTablesAll);
    static JScrollPane jspDTFieldsTablesAll = new JScrollPane(jlDTFieldsTablesAll);
@@ -101,19 +101,19 @@ public class EdgeConvertGUI {
    //Define Relations screen objects
    static JFrame jfDR = new JFrame(DEFINE_RELATIONS);
    static JPanel jpDRBottom = new JPanel(new GridLayout(1, 3));
-   static JPanel jpDRCenter;
-   static JPanel jpDRCenter1;
-   static JPanel jpDRCenter2;
-   static JPanel jpDRCenter3;
-   static JPanel jpDRCenter4;
+   static JPanel jpDRCenter = new JPanel(new GridLayout(2, 2));
+   static JPanel jpDRCenter1 = new JPanel(new BorderLayout());
+   static JPanel jpDRCenter2 = new JPanel(new BorderLayout());
+   static JPanel jpDRCenter3 = new JPanel(new BorderLayout());
+   static JPanel jpDRCenter4 = new JPanel(new BorderLayout());
    static JButton jbDRCreateDDL = new JButton("Create DDL");
    static JButton jbDRDefineTables = new JButton(DEFINE_TABLES);
    static JButton jbDRBindRelation = new JButton("Bind/Unbind Relation");
-   static DefaultListModel dlmDRTablesRelations;
+   static DefaultListModel dlmDRTablesRelations = new DefaultListModel();
    static DefaultListModel dlmDRTablesRelatedTo = new DefaultListModel();
    static DefaultListModel dlmDRFieldsTablesRelations = new DefaultListModel();
    static DefaultListModel dlmDRFieldsTablesRelatedTo = new DefaultListModel();
-   static JList jlDRTablesRelations;
+   static JList jlDRTablesRelations = new JList(dlmDRTablesRelations);
    static JList jlDRTablesRelatedTo = new JList(dlmDRTablesRelatedTo);
    static JList jlDRFieldsTablesRelations = new JList(dlmDRFieldsTablesRelations);
    static JList jlDRFieldsTablesRelatedTo = new JList(dlmDRFieldsTablesRelatedTo);
@@ -126,17 +126,17 @@ public class EdgeConvertGUI {
    static JScrollPane jspDRFieldsTablesRelations = new JScrollPane(jlDRFieldsTablesRelations);
    static JScrollPane jspDRFieldsTablesRelatedTo = new JScrollPane(jlDRFieldsTablesRelatedTo);
    static JMenuBar jmbDRMenuBar = new JMenuBar();
-   static JMenu jmDRFile;
-   static JMenu jmDROptions;
-   static JMenu jmDRHelp;
-   static JMenuItem jmiDROpenEdge;
-   static JMenuItem jmiDROpenSave;
-   static JMenuItem jmiDRSave;
-   static JMenuItem jmiDRSaveAs;
-   static JMenuItem jmiDRExit;
-   static JMenuItem jmiDROptionsOutputLocation;
-   static JMenuItem jmiDROptionsShowProducts;
-   static JMenuItem jmiDRHelpAbout;
+   static JMenu jmDRFile = new JMenu("File");
+   static JMenu jmDROptions = new JMenu("Options");
+   static JMenu jmDRHelp = new JMenu("Help");
+   static JMenuItem jmiDROpenEdge = new JMenuItem("Open Edge File");
+   static JMenuItem jmiDROpenSave = new JMenuItem("Open Save File");
+   static JMenuItem jmiDRSave = new JMenuItem("Save");
+   static JMenuItem jmiDRSaveAs = new JMenuItem("Save As...");
+   static JMenuItem jmiDRExit = new JMenuItem("Exit");
+   static JMenuItem jmiDROptionsOutputLocation = new JMenuItem("Set Output File Definition Location");
+   static JMenuItem jmiDROptionsShowProducts = new JMenuItem("Show Database Products Available");
+   static JMenuItem jmiDRHelpAbout = new JMenuItem("About");
    
    public EdgeConvertGUI() {
       menuListener = new EdgeMenuListener();
@@ -505,24 +505,18 @@ public class EdgeConvertGUI {
 
       //setup menubars and menus
       jfDR.setJMenuBar(jmbDRMenuBar);
-      jmDRFile = new JMenu("File");
       jmDRFile.setMnemonic(KeyEvent.VK_F);
       jmbDRMenuBar.add(jmDRFile);
-      jmiDROpenEdge = new JMenuItem("Open Edge File");
       jmiDROpenEdge.setMnemonic(KeyEvent.VK_E);
       jmiDROpenEdge.addActionListener(menuListener);
-      jmiDROpenSave = new JMenuItem("Open Save File");
       jmiDROpenSave.setMnemonic(KeyEvent.VK_V);
       jmiDROpenSave.addActionListener(menuListener);
-      jmiDRSave = new JMenuItem("Save");
       jmiDRSave.setMnemonic(KeyEvent.VK_S);
       jmiDRSave.setEnabled(false);
       jmiDRSave.addActionListener(menuListener);
-      jmiDRSaveAs = new JMenuItem("Save As...");
       jmiDRSaveAs.setMnemonic(KeyEvent.VK_A);
       jmiDRSaveAs.setEnabled(false);
       jmiDRSaveAs.addActionListener(menuListener);
-      jmiDRExit = new JMenuItem("Exit");
       jmiDRExit.setMnemonic(KeyEvent.VK_X);
       jmiDRExit.addActionListener(menuListener);
       jmDRFile.add(jmiDROpenEdge);
@@ -531,35 +525,22 @@ public class EdgeConvertGUI {
       jmDRFile.add(jmiDRSaveAs);
       jmDRFile.add(jmiDRExit);
 
-      jmDROptions = new JMenu("Options");
       jmDROptions.setMnemonic(KeyEvent.VK_O);
       jmbDRMenuBar.add(jmDROptions);
-      jmiDROptionsOutputLocation = new JMenuItem("Set Output File Definition Location");
       jmiDROptionsOutputLocation.setMnemonic(KeyEvent.VK_S);
       jmiDROptionsOutputLocation.addActionListener(menuListener);
-      jmiDROptionsShowProducts = new JMenuItem("Show Database Products Available");
       jmiDROptionsShowProducts.setMnemonic(KeyEvent.VK_H);
       jmiDROptionsShowProducts.setEnabled(false);
       jmiDROptionsShowProducts.addActionListener(menuListener);
       jmDROptions.add(jmiDROptionsOutputLocation);
       jmDROptions.add(jmiDROptionsShowProducts);
 
-      jmDRHelp = new JMenu("Help");
       jmDRHelp.setMnemonic(KeyEvent.VK_H);
       jmbDRMenuBar.add(jmDRHelp);
-      jmiDRHelpAbout = new JMenuItem("About");
       jmiDRHelpAbout.setMnemonic(KeyEvent.VK_A);
       jmiDRHelpAbout.addActionListener(menuListener);
       jmDRHelp.add(jmiDRHelpAbout);
 
-      jpDRCenter = new JPanel(new GridLayout(2, 2));
-      jpDRCenter1 = new JPanel(new BorderLayout());
-      jpDRCenter2 = new JPanel(new BorderLayout());
-      jpDRCenter3 = new JPanel(new BorderLayout());
-      jpDRCenter4 = new JPanel(new BorderLayout());
-
-      dlmDRTablesRelations = new DefaultListModel();
-      jlDRTablesRelations = new JList(dlmDRTablesRelations);
       jlDRTablesRelations.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse)  {
