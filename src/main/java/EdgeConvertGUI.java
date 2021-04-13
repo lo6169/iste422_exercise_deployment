@@ -10,7 +10,8 @@ import java.util.jar.JarFile;
 import java.lang.reflect.*;
 
 public class EdgeConvertGUI {
-   
+   private static final String CREATE_DDL = "Create DDL";
+   private static final String YOU_SURE = "Are you sure?";
    public static final int HORIZ_SIZE = 635;
    public static final int VERT_SIZE = 400;
    public static final int HORIZ_LOC = 100;
@@ -19,11 +20,11 @@ public class EdgeConvertGUI {
    public static final String DEFINE_RELATIONS = "Define Relations";
    public static final String CANCELLED = "CANCELLED";
    private static JFileChooser jfcEdge = new JFileChooser(".");
-   private static JFileChooser jfcGetClass;
+   // private static JFileChooser jfcGetClass;
    private static JFileChooser jfcOutputDir = new JFileChooser("..");
    private static ExampleFileFilter effEdge = new ExampleFileFilter("edg", "Edge Diagrammer Files");
    private static ExampleFileFilter effSave = new ExampleFileFilter("sav", "Edge Convert Save Files");
-   private static ExampleFileFilter effClass;
+   // private static ExampleFileFilter effClass;
    private File parseFile;
    private File saveFile;
    private File outputFile;
@@ -37,8 +38,8 @@ public class EdgeConvertGUI {
    EdgeWindowListener edgeWindowListener;
    CreateDDLButtonListener createDDLListener;
    private EdgeConvertFileParser ecfp;
-   private EdgeConvertCreateDDL eccd;
-   private static PrintWriter pw;
+   // private EdgeConvertCreateDDL eccd;
+   // private static PrintWriter pw;
    private EdgeTable[] tables; //master copy of EdgeTable objects
    private EdgeField[] fields; //master copy of EdgeField objects
    private EdgeTable currentDTTable; //pointers to currently selected table(s) on Define Tables (DT) and Define Relations (DR) screens
@@ -50,7 +51,7 @@ public class EdgeConvertGUI {
    private static boolean readSuccess = true; //this tells GUI whether to populate JList components or not
    private boolean dataSaved = true;
    private ArrayList<Object> alSubclasses = new ArrayList<>();
-   private ArrayList alProductNames;
+   private ArrayList<String> alProductNames;
    private String[] productNames;
    private Object[] objSubclasses;
 
@@ -65,7 +66,7 @@ public class EdgeConvertGUI {
    static JPanel jpDTCenterRight1 = new JPanel(new GridLayout(strDataType.length, 1));
    static JPanel jpDTCenterRight2 = new JPanel(new GridLayout(6, 1));
    static JPanel jpDTMove = new JPanel(new GridLayout(2, 1));
-   static JButton jbDTCreateDDL = new JButton("Create DDL");
+   static JButton jbDTCreateDDL = new JButton(CREATE_DDL);
    static JButton jbDTDefineRelations = new JButton (DEFINE_RELATIONS);
    static JButton jbDTVarchar = new JButton("Set Varchar Length");
    static JButton jbDTDefaultValue = new JButton("Set Default Value");
@@ -81,8 +82,8 @@ public class EdgeConvertGUI {
    static JLabel jlabDTTables = new JLabel("All Tables", SwingConstants.CENTER);
    static DefaultListModel<String> dlmDTTablesAll = new DefaultListModel<>();
    static DefaultListModel<String> dlmDTFieldsTablesAll = new DefaultListModel<>();
-   static JList jlDTTablesAll = new JList(dlmDTTablesAll);
-   static JList<DefaultListModel<String>> jlDTFieldsTablesAll = new JList(dlmDTFieldsTablesAll);
+   static JList<String> jlDTTablesAll = new JList<>(dlmDTTablesAll);
+   static JList<String> jlDTFieldsTablesAll = new JList<>(dlmDTFieldsTablesAll);
    static JScrollPane jspDTTablesAll = new JScrollPane(jlDTTablesAll);
    static JScrollPane jspDTFieldsTablesAll = new JScrollPane(jlDTFieldsTablesAll);
    static JMenuBar jmbDTMenuBar = new JMenuBar();
@@ -106,17 +107,17 @@ public class EdgeConvertGUI {
    static JPanel jpDRCenter2 = new JPanel(new BorderLayout());
    static JPanel jpDRCenter3 = new JPanel(new BorderLayout());
    static JPanel jpDRCenter4 = new JPanel(new BorderLayout());
-   static JButton jbDRCreateDDL = new JButton("Create DDL");
+   static JButton jbDRCreateDDL = new JButton(CREATE_DDL);
    static JButton jbDRDefineTables = new JButton(DEFINE_TABLES);
    static JButton jbDRBindRelation = new JButton("Bind/Unbind Relation");
-   static DefaultListModel dlmDRTablesRelations = new DefaultListModel();
-   static DefaultListModel dlmDRTablesRelatedTo = new DefaultListModel();
-   static DefaultListModel dlmDRFieldsTablesRelations = new DefaultListModel();
-   static DefaultListModel dlmDRFieldsTablesRelatedTo = new DefaultListModel();
-   static JList jlDRTablesRelations = new JList(dlmDRTablesRelations);
-   static JList jlDRTablesRelatedTo = new JList(dlmDRTablesRelatedTo);
-   static JList jlDRFieldsTablesRelations = new JList(dlmDRFieldsTablesRelations);
-   static JList jlDRFieldsTablesRelatedTo = new JList(dlmDRFieldsTablesRelatedTo);
+   static DefaultListModel<String> dlmDRTablesRelations = new DefaultListModel<>();
+   static DefaultListModel<String> dlmDRTablesRelatedTo = new DefaultListModel<>();
+   static DefaultListModel<String> dlmDRFieldsTablesRelations = new DefaultListModel<>();
+   static DefaultListModel<String> dlmDRFieldsTablesRelatedTo = new DefaultListModel<>();
+   static JList<String> jlDRTablesRelations = new JList<>(dlmDRTablesRelations);
+   static JList<String> jlDRTablesRelatedTo = new JList<>(dlmDRTablesRelatedTo);
+   static JList<String> jlDRFieldsTablesRelations = new JList<>(dlmDRFieldsTablesRelations);
+   static JList<String> jlDRFieldsTablesRelatedTo = new JList<>(dlmDRFieldsTablesRelatedTo);
    static JLabel jlabDRTablesRelations = new JLabel("Tables With Relations", SwingConstants.CENTER);
    static JLabel jlabDRTablesRelatedTo = new JLabel("Related Tables", SwingConstants.CENTER);
    static JLabel jlabDRFieldsTablesRelations = new JLabel("Fields in Tables with Relations", SwingConstants.CENTER);
@@ -158,7 +159,7 @@ public class EdgeConvertGUI {
 
    public void createDTScreen() {//create Define Tables screen
       jfDT.setLocation(HORIZ_LOC, VERT_LOC);
-      Container cp = jfDT.getContentPane();
+      // Container cp = jfDT.getContentPane();
       jfDT.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
       jfDT.addWindowListener(edgeWindowListener);
       jfDT.getContentPane().setLayout(new BorderLayout());
@@ -229,7 +230,7 @@ public class EdgeConvertGUI {
             public void valueChanged(ListSelectionEvent lse)  {
                int selIndex = jlDTTablesAll.getSelectedIndex();
                if (selIndex >= 0) {
-                  String selText = dlmDTTablesAll.getElementAt(selIndex).toString();
+                  String selText = dlmDTTablesAll.getElementAt(selIndex);
                   setCurrentDTTable(selText); //set pointer to the selected table
                   int[] currentNativeFields = currentDTTable.getNativeFieldsArray();
                   jlDTFieldsTablesAll.clearSelection();
@@ -423,6 +424,7 @@ public class EdgeConvertGUI {
                            
                         }
                         break;
+                     default: break;
                   }
                } while (!goodData);
                int selIndex = jlDTFieldsTablesAll.getSelectedIndex();
@@ -655,7 +657,7 @@ public class EdgeConvertGUI {
                if (currentDRField1.getFieldBound() == relatedField) { //the selected fields are already bound to each other
                   int answer = JOptionPane.showConfirmDialog(null, "Do you wish to unbind the relation on field " +
                                                              currentDRField1.getName() + "?",
-                                                             "Are you sure?", JOptionPane.YES_NO_OPTION);
+                                                             YOU_SURE, JOptionPane.YES_NO_OPTION);
                   if (answer == JOptionPane.YES_OPTION) {
                      currentDRTable1.setRelatedField(nativeIndex, 0); //clear the related field
                      currentDRField1.setTableBound(0); //clear the bound table
@@ -667,7 +669,7 @@ public class EdgeConvertGUI {
                if (currentDRField1.getFieldBound() != 0) { //field is already bound to a different field
                   int answer = JOptionPane.showConfirmDialog(null, "There is already a relation defined on field " +
                                                              currentDRField1.getName() + ", do you wish to overwrite it?",
-                                                             "Are you sure?", JOptionPane.YES_NO_OPTION);
+                                                             YOU_SURE, JOptionPane.YES_NO_OPTION);
                   if (answer == JOptionPane.NO_OPTION || answer == JOptionPane.CLOSED_OPTION) {
                      jlDRTablesRelatedTo.setSelectedValue(getTableName(currentDRField1.getTableBound()), true); //revert selections to saved settings
                      jlDRFieldsTablesRelatedTo.setSelectedValue(getFieldName(currentDRField1.getFieldBound()), true); //revert selections to saved settings
@@ -880,7 +882,7 @@ public class EdgeConvertGUI {
    private void writeSave() {
       if (saveFile != null) {
          try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(saveFile, false)));
+            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(saveFile, false)));
             //write the identification line
             pw.println(EdgeConvertFileParser.SAVE_ID);
             //write the tables 
@@ -1014,7 +1016,7 @@ public class EdgeConvertGUI {
       String response = (String)JOptionPane.showInputDialog(
                     null,
                     "Select a product:",
-                    "Create DDL",
+                    CREATE_DDL,
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     productNames,
@@ -1071,7 +1073,7 @@ public class EdgeConvertGUI {
              }
          }
          try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(outputFile, false)));
+            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(outputFile, false)));
             //write the SQL statements
             pw.println(output);
             //close the file
@@ -1104,18 +1106,18 @@ public class EdgeConvertGUI {
    }
    
    class EdgeWindowListener implements WindowListener {
-      public void windowActivated(WindowEvent we) {}
-      public void windowClosed(WindowEvent we) {}
-      public void windowDeactivated(WindowEvent we) {}
-      public void windowDeiconified(WindowEvent we) {}
-      public void windowIconified(WindowEvent we) {}
-      public void windowOpened(WindowEvent we) {}
+      @Override public void windowActivated(WindowEvent we)    { /* Default override */ }
+      @Override public void windowClosed(WindowEvent we)       { /* Default override */ }
+      @Override public void windowDeactivated(WindowEvent we)  { /* Default override */ }
+      @Override public void windowDeiconified(WindowEvent we)  { /* Default override */ }
+      @Override public void windowIconified(WindowEvent we)    { /* Default override */ }
+      @Override public void windowOpened(WindowEvent we)       { /* Default override */ }
       
       public void windowClosing(WindowEvent we) {
          if (!dataSaved) {
             int answer = JOptionPane.showOptionDialog(null,
                 "You currently have unsaved data. Would you like to save?",
-                "Are you sure?",
+                YOU_SURE,
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null, null, null);
@@ -1160,7 +1162,7 @@ public class EdgeConvertGUI {
          if ((ae.getSource() == jmiDTOpenEdge) || (ae.getSource() == jmiDROpenEdge)) {
             if (!dataSaved) {
                int answer = JOptionPane.showConfirmDialog(null, "You currently have unsaved data. Continue?",
-                                                          "Are you sure?", JOptionPane.YES_NO_OPTION);
+                                                          YOU_SURE, JOptionPane.YES_NO_OPTION);
                if (answer != JOptionPane.YES_OPTION) {
                   return;
                }
@@ -1199,7 +1201,7 @@ public class EdgeConvertGUI {
          if ((ae.getSource() == jmiDTOpenSave) || (ae.getSource() == jmiDROpenSave)) {
             if (!dataSaved) {
                int answer = JOptionPane.showConfirmDialog(null, "You currently have unsaved data. Continue?",
-                                                          "Are you sure?", JOptionPane.YES_NO_OPTION);
+                                                          YOU_SURE, JOptionPane.YES_NO_OPTION);
                if (answer != JOptionPane.YES_OPTION) {
                   return;
                }
@@ -1245,14 +1247,12 @@ public class EdgeConvertGUI {
             if (!dataSaved) {
                int answer = JOptionPane.showOptionDialog(null,
                    "You currently have unsaved data. Would you like to save?",
-                   "Are you sure?",
+                   YOU_SURE,
                    JOptionPane.YES_NO_CANCEL_OPTION,
                    JOptionPane.QUESTION_MESSAGE,
                    null, null, null);
-               if (answer == JOptionPane.YES_OPTION) {
-                  if (saveFile == null) {
-                     saveAs();
-                  }
+               if (answer == JOptionPane.YES_OPTION && saveFile == null) {
+                  saveAs();
                }
                if ((answer == JOptionPane.CANCEL_OPTION) || (answer == JOptionPane.CLOSED_OPTION)) {
                   return;
