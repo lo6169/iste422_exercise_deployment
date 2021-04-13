@@ -18,9 +18,17 @@ public class EdgeConvertGUI {
    public static final String DEFINE_TABLES = "Define Tables";
    public static final String DEFINE_RELATIONS = "Define Relations";
    public static final String CANCELLED = "CANCELLED";
-   private static JFileChooser jfcEdge, jfcGetClass, jfcOutputDir;
-   private static ExampleFileFilter effEdge, effSave, effClass;
-   private File parseFile, saveFile, outputFile, outputDir, outputDirOld;
+   private static JFileChooser jfcEdge = new JFileChooser(".");
+   private static JFileChooser jfcGetClass;
+   private static JFileChooser jfcOutputDir = new JFileChooser("..");
+   private static ExampleFileFilter effEdge = new ExampleFileFilter("edg", "Edge Diagrammer Files");
+   private static ExampleFileFilter effSave = new ExampleFileFilter("sav", "Edge Convert Save Files");
+   private static ExampleFileFilter effClass;
+   private File parseFile;
+   private File saveFile;
+   private File outputFile;
+   private File outputDir;
+   private File outputDirOld;
    private String truncatedFilename;
    private String sqlString;
    private String databaseName;
@@ -33,33 +41,65 @@ public class EdgeConvertGUI {
    private static PrintWriter pw;
    private EdgeTable[] tables; //master copy of EdgeTable objects
    private EdgeField[] fields; //master copy of EdgeField objects
-   private EdgeTable currentDTTable, currentDRTable1, currentDRTable2; //pointers to currently selected table(s) on Define Tables (DT) and Define Relations (DR) screens
-   private EdgeField currentDTField, currentDRField1, currentDRField2; //pointers to currently selected field(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeTable currentDTTable; //pointers to currently selected table(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeTable currentDRTable1; //pointers to currently selected table(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeTable currentDRTable2; //pointers to currently selected table(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeField currentDTField; //pointers to currently selected field(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeField currentDRField1; //pointers to currently selected field(s) on Define Tables (DT) and Define Relations (DR) screens
+   private EdgeField currentDRField2; //pointers to currently selected field(s) on Define Tables (DT) and Define Relations (DR) screens
    private static boolean readSuccess = true; //this tells GUI whether to populate JList components or not
    private boolean dataSaved = true;
-   private ArrayList alSubclasses, alProductNames;
+   private ArrayList<Object> alSubclasses = new ArrayList<>();
+   private ArrayList alProductNames;
    private String[] productNames;
    private Object[] objSubclasses;
 
    //Define Tables screen objects
-   static JFrame jfDT;
-   static JPanel jpDTBottom, jpDTCenter, jpDTCenter1, jpDTCenter2, jpDTCenterRight, jpDTCenterRight1, jpDTCenterRight2, jpDTMove;
-   static JButton jbDTCreateDDL, jbDTDefineRelations, jbDTVarchar, jbDTDefaultValue, jbDTMoveUp, jbDTMoveDown;
-   static ButtonGroup bgDTDataType;
-   static JRadioButton[] jrbDataType;
-   static String[] strDataType;
-   static JCheckBox jcheckDTDisallowNull, jcheckDTPrimaryKey;
-   static JTextField jtfDTVarchar, jtfDTDefaultValue;
-   static JLabel jlabDTTables, jlabDTFields;
-   static JScrollPane jspDTTablesAll, jspDTFieldsTablesAll;
-   static JList jlDTTablesAll, jlDTFieldsTablesAll;
-   static DefaultListModel dlmDTTablesAll, dlmDTFieldsTablesAll;
-   static JMenuBar jmbDTMenuBar;
-   static JMenu jmDTFile, jmDTOptions, jmDTHelp;
-   static JMenuItem jmiDTOpenEdge, jmiDTOpenSave, jmiDTSave, jmiDTSaveAs, jmiDTExit, jmiDTOptionsOutputLocation, jmiDTOptionsShowProducts, jmiDTHelpAbout;
+   static String[] strDataType = EdgeField.getStrDataType(); //get the list of currently supported data types
+   static JFrame jfDT = new JFrame(DEFINE_TABLES);
+   static JPanel jpDTBottom = new JPanel(new GridLayout(1, 2));
+   static JPanel jpDTCenter = new JPanel(new GridLayout(1, 3));
+   static JPanel jpDTCenter1 = new JPanel(new BorderLayout());
+   static JPanel jpDTCenter2 = new JPanel(new BorderLayout());
+   static JPanel jpDTCenterRight = new JPanel(new GridLayout(1, 2));
+   static JPanel jpDTCenterRight1 = new JPanel(new GridLayout(strDataType.length, 1));
+   static JPanel jpDTCenterRight2;
+   static JPanel jpDTMove = new JPanel(new GridLayout(2, 1));
+   static JButton jbDTCreateDDL = new JButton("Create DDL");
+   static JButton jbDTDefineRelations = new JButton (DEFINE_RELATIONS);
+   static JButton jbDTVarchar = new JButton("Set Varchar Length");
+   static JButton jbDTDefaultValue = new JButton("Set Default Value");
+   static JButton jbDTMoveUp = new JButton("^");
+   static JButton jbDTMoveDown = new JButton("v");
+   static ButtonGroup bgDTDataType = new ButtonGroup();
+   static JRadioButton[] jrbDataType = new JRadioButton[strDataType.length]; //create array of JRadioButtons, one for each supported data type
+   static JCheckBox jcheckDTDisallowNull = new JCheckBox("Disallow Null");
+   static JCheckBox jcheckDTPrimaryKey = new JCheckBox("Primary Key");
+   static JTextField jtfDTVarchar = new JTextField();
+   static JTextField jtfDTDefaultValue = new JTextField();
+   static JLabel jlabDTFields = new JLabel("Fields List", SwingConstants.CENTER);
+   static JLabel jlabDTTables = new JLabel("All Tables", SwingConstants.CENTER);
+   static DefaultListModel<String> dlmDTTablesAll = new DefaultListModel<>();
+   static DefaultListModel<String> dlmDTFieldsTablesAll = new DefaultListModel<>();
+   static JList jlDTTablesAll;
+   static JList<DefaultListModel<String>> jlDTFieldsTablesAll = new JList(dlmDTFieldsTablesAll);
+   static JScrollPane jspDTTablesAll = new JScrollPane(jlDTTablesAll);
+   static JScrollPane jspDTFieldsTablesAll = new JScrollPane(jlDTFieldsTablesAll);
+   static JMenuBar jmbDTMenuBar = new JMenuBar();
+   static JMenu jmDTFile = new JMenu("File");
+   static JMenu jmDTOptions = new JMenu("Options");
+   static JMenu jmDTHelp = new JMenu("Help");
+   static JMenuItem jmiDTOpenEdge = new JMenuItem("Open Edge File");
+   static JMenuItem jmiDTOpenSave = new JMenuItem("Open Save File");
+   static JMenuItem jmiDTSave = new JMenuItem("Save");
+   static JMenuItem jmiDTSaveAs = new JMenuItem("Save As...");
+   static JMenuItem jmiDTExit = new JMenuItem("Exit");
+   static JMenuItem jmiDTOptionsOutputLocation = new JMenuItem("Set Output File Definition Location");
+   static JMenuItem jmiDTOptionsShowProducts = new JMenuItem("Show Database Products Available");
+   static JMenuItem jmiDTHelpAbout = new JMenuItem("About");
    
    //Define Relations screen objects
-   static JFrame jfDR;
+   static JFrame jfDR = new JFrame(DEFINE_RELATIONS);
    static JPanel jpDRBottom, jpDRCenter, jpDRCenter1, jpDRCenter2, jpDRCenter3, jpDRCenter4;
    static JButton jbDRCreateDDL, jbDRDefineTables, jbDRBindRelation;
    static JList jlDRTablesRelations, jlDRTablesRelatedTo, jlDRFieldsTablesRelations, jlDRFieldsTablesRelatedTo;
@@ -89,7 +129,6 @@ public class EdgeConvertGUI {
    } //showGUI()
 
    public void createDTScreen() {//create Define Tables screen
-      jfDT = new JFrame(DEFINE_TABLES);
       jfDT.setLocation(HORIZ_LOC, VERT_LOC);
       Container cp = jfDT.getContentPane();
       jfDT.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -99,27 +138,19 @@ public class EdgeConvertGUI {
       jfDT.setSize(HORIZ_SIZE + 150, VERT_SIZE);
 
       //setup menubars and menus
-      jmbDTMenuBar = new JMenuBar();
       jfDT.setJMenuBar(jmbDTMenuBar);
-
-      jmDTFile = new JMenu("File");
       jmDTFile.setMnemonic(KeyEvent.VK_F);
       jmbDTMenuBar.add(jmDTFile);
-      jmiDTOpenEdge = new JMenuItem("Open Edge File");
       jmiDTOpenEdge.setMnemonic(KeyEvent.VK_E);
       jmiDTOpenEdge.addActionListener(menuListener);
-      jmiDTOpenSave = new JMenuItem("Open Save File");
       jmiDTOpenSave.setMnemonic(KeyEvent.VK_V);
       jmiDTOpenSave.addActionListener(menuListener);
-      jmiDTSave = new JMenuItem("Save");
       jmiDTSave.setMnemonic(KeyEvent.VK_S);
       jmiDTSave.setEnabled(false);
       jmiDTSave.addActionListener(menuListener);
-      jmiDTSaveAs = new JMenuItem("Save As...");
       jmiDTSaveAs.setMnemonic(KeyEvent.VK_A);
       jmiDTSaveAs.setEnabled(false);
       jmiDTSaveAs.addActionListener(menuListener);
-      jmiDTExit = new JMenuItem("Exit");
       jmiDTExit.setMnemonic(KeyEvent.VK_X);
       jmiDTExit.addActionListener(menuListener);
       jmDTFile.add(jmiDTOpenEdge);
@@ -128,40 +159,27 @@ public class EdgeConvertGUI {
       jmDTFile.add(jmiDTSaveAs);
       jmDTFile.add(jmiDTExit);
       
-      jmDTOptions = new JMenu("Options");
       jmDTOptions.setMnemonic(KeyEvent.VK_O);
       jmbDTMenuBar.add(jmDTOptions);
-      jmiDTOptionsOutputLocation = new JMenuItem("Set Output File Definition Location");
       jmiDTOptionsOutputLocation.setMnemonic(KeyEvent.VK_S);
       jmiDTOptionsOutputLocation.addActionListener(menuListener);
-      jmiDTOptionsShowProducts = new JMenuItem("Show Database Products Available");
       jmiDTOptionsShowProducts.setMnemonic(KeyEvent.VK_H);
       jmiDTOptionsShowProducts.setEnabled(false);
       jmiDTOptionsShowProducts.addActionListener(menuListener);
       jmDTOptions.add(jmiDTOptionsOutputLocation);
       jmDTOptions.add(jmiDTOptionsShowProducts);
       
-      jmDTHelp = new JMenu("Help");
       jmDTHelp.setMnemonic(KeyEvent.VK_H);
       jmbDTMenuBar.add(jmDTHelp);
-      jmiDTHelpAbout = new JMenuItem("About");
       jmiDTHelpAbout.setMnemonic(KeyEvent.VK_A);
       jmiDTHelpAbout.addActionListener(menuListener);
       jmDTHelp.add(jmiDTHelpAbout);
       
-      jfcEdge = new JFileChooser(".");
-      jfcOutputDir = new JFileChooser("..");
-	   effEdge = new ExampleFileFilter("edg", "Edge Diagrammer Files");
-   	effSave = new ExampleFileFilter("sav", "Edge Convert Save Files");
       jfcOutputDir.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-      jpDTBottom = new JPanel(new GridLayout(1, 2));
-
-      jbDTCreateDDL = new JButton("Create DDL");
       jbDTCreateDDL.setEnabled(false);
       jbDTCreateDDL.addActionListener(createDDLListener);
 
-      jbDTDefineRelations = new JButton (DEFINE_RELATIONS);
       jbDTDefineRelations.setEnabled(false);
       jbDTDefineRelations.addActionListener(
          new ActionListener() {
@@ -178,10 +196,6 @@ public class EdgeConvertGUI {
       jpDTBottom.add(jbDTCreateDDL);
       jfDT.getContentPane().add(jpDTBottom, BorderLayout.SOUTH);
       
-      jpDTCenter = new JPanel(new GridLayout(1, 3));
-      jpDTCenterRight = new JPanel(new GridLayout(1, 2));
-      dlmDTTablesAll = new DefaultListModel();
-      jlDTTablesAll = new JList(dlmDTTablesAll);
       jlDTTablesAll.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse)  {
@@ -203,8 +217,6 @@ public class EdgeConvertGUI {
          }
       );
       
-      dlmDTFieldsTablesAll = new DefaultListModel();
-      jlDTFieldsTablesAll = new JList(dlmDTFieldsTablesAll);
       jlDTFieldsTablesAll.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse) {
@@ -239,8 +251,6 @@ public class EdgeConvertGUI {
          }
       );
       
-      jpDTMove = new JPanel(new GridLayout(2, 1));
-      jbDTMoveUp = new JButton("^");
       jbDTMoveUp.setEnabled(false);
       jbDTMoveUp.addActionListener(
          new ActionListener() {
@@ -259,7 +269,7 @@ public class EdgeConvertGUI {
             }
          }
       );
-      jbDTMoveDown = new JButton("v");
+      
       jbDTMoveDown.setEnabled(false);
       jbDTMoveDown.addActionListener(
          new ActionListener() {
@@ -281,12 +291,6 @@ public class EdgeConvertGUI {
       jpDTMove.add(jbDTMoveUp);
       jpDTMove.add(jbDTMoveDown);
 
-      jspDTTablesAll = new JScrollPane(jlDTTablesAll);
-      jspDTFieldsTablesAll = new JScrollPane(jlDTFieldsTablesAll);
-      jpDTCenter1 = new JPanel(new BorderLayout());
-      jpDTCenter2 = new JPanel(new BorderLayout());
-      jlabDTTables = new JLabel("All Tables", SwingConstants.CENTER);
-      jlabDTFields = new JLabel("Fields List", SwingConstants.CENTER);
       jpDTCenter1.add(jlabDTTables, BorderLayout.NORTH);
       jpDTCenter2.add(jlabDTFields, BorderLayout.NORTH);
       jpDTCenter1.add(jspDTTablesAll, BorderLayout.CENTER);
@@ -296,10 +300,6 @@ public class EdgeConvertGUI {
       jpDTCenter.add(jpDTCenter2);
       jpDTCenter.add(jpDTCenterRight);
 
-      strDataType = EdgeField.getStrDataType(); //get the list of currently supported data types
-      jrbDataType = new JRadioButton[strDataType.length]; //create array of JRadioButtons, one for each supported data type
-      bgDTDataType = new ButtonGroup();
-      jpDTCenterRight1 = new JPanel(new GridLayout(strDataType.length, 1));
       for (int i = 0; i < strDataType.length; i++) {
          jrbDataType[i] = new JRadioButton(strDataType[i]); //assign label for radio button from String array
          jrbDataType[i].setEnabled(false);
@@ -309,7 +309,6 @@ public class EdgeConvertGUI {
       }
       jpDTCenterRight.add(jpDTCenterRight1);
       
-      jcheckDTDisallowNull = new JCheckBox("Disallow Null");
       jcheckDTDisallowNull.setEnabled(false);
       jcheckDTDisallowNull.addItemListener(
          new ItemListener() {
@@ -320,7 +319,6 @@ public class EdgeConvertGUI {
          }
       );
       
-      jcheckDTPrimaryKey = new JCheckBox("Primary Key");
       jcheckDTPrimaryKey.setEnabled(false);
       jcheckDTPrimaryKey.addItemListener(
          new ItemListener() {
@@ -331,7 +329,6 @@ public class EdgeConvertGUI {
          }
       );
       
-      jbDTDefaultValue = new JButton("Set Default Value");
       jbDTDefaultValue.setEnabled(false);
       jbDTDefaultValue.addActionListener(
          new ActionListener() {
@@ -410,10 +407,8 @@ public class EdgeConvertGUI {
             }
          }
       ); //jbDTDefaultValue.addActionListener
-      jtfDTDefaultValue = new JTextField();
       jtfDTDefaultValue.setEditable(false);
 
-      jbDTVarchar = new JButton("Set Varchar Length");
       jbDTVarchar.setEnabled(false);
       jbDTVarchar.addActionListener(
          new ActionListener() {
@@ -457,7 +452,6 @@ public class EdgeConvertGUI {
             }
          }
       );
-      jtfDTVarchar = new JTextField();
       jtfDTVarchar.setEditable(false);
       
       jpDTCenterRight2 = new JPanel(new GridLayout(6, 1));
@@ -476,7 +470,6 @@ public class EdgeConvertGUI {
 
    public void createDRScreen() {
       //create Define Relations screen
-      jfDR = new JFrame(DEFINE_RELATIONS);
       jfDR.setSize(HORIZ_SIZE, VERT_SIZE);
       jfDR.setLocation(HORIZ_LOC, VERT_LOC);
       jfDR.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -923,7 +916,6 @@ public class EdgeConvertGUI {
    private void setOutputDir() {
       int returnVal;
       outputDirOld = outputDir;
-      alSubclasses = new ArrayList();
       alProductNames = new ArrayList();
 
       returnVal = jfcOutputDir.showOpenDialog(null);
