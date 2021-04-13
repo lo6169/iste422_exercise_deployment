@@ -63,7 +63,7 @@ public class EdgeConvertGUI {
    static JPanel jpDTCenter2 = new JPanel(new BorderLayout());
    static JPanel jpDTCenterRight = new JPanel(new GridLayout(1, 2));
    static JPanel jpDTCenterRight1 = new JPanel(new GridLayout(strDataType.length, 1));
-   static JPanel jpDTCenterRight2;
+   static JPanel jpDTCenterRight2 = new JPanel(new GridLayout(6, 1));
    static JPanel jpDTMove = new JPanel(new GridLayout(2, 1));
    static JButton jbDTCreateDDL = new JButton("Create DDL");
    static JButton jbDTDefineRelations = new JButton (DEFINE_RELATIONS);
@@ -100,15 +100,43 @@ public class EdgeConvertGUI {
    
    //Define Relations screen objects
    static JFrame jfDR = new JFrame(DEFINE_RELATIONS);
-   static JPanel jpDRBottom, jpDRCenter, jpDRCenter1, jpDRCenter2, jpDRCenter3, jpDRCenter4;
-   static JButton jbDRCreateDDL, jbDRDefineTables, jbDRBindRelation;
-   static JList jlDRTablesRelations, jlDRTablesRelatedTo, jlDRFieldsTablesRelations, jlDRFieldsTablesRelatedTo;
-   static DefaultListModel dlmDRTablesRelations, dlmDRTablesRelatedTo, dlmDRFieldsTablesRelations, dlmDRFieldsTablesRelatedTo;
-   static JLabel jlabDRTablesRelations, jlabDRTablesRelatedTo, jlabDRFieldsTablesRelations, jlabDRFieldsTablesRelatedTo;
-   static JScrollPane jspDRTablesRelations, jspDRTablesRelatedTo, jspDRFieldsTablesRelations, jspDRFieldsTablesRelatedTo;
-   static JMenuBar jmbDRMenuBar;
-   static JMenu jmDRFile, jmDROptions, jmDRHelp;
-   static JMenuItem jmiDROpenEdge, jmiDROpenSave, jmiDRSave, jmiDRSaveAs, jmiDRExit, jmiDROptionsOutputLocation, jmiDROptionsShowProducts, jmiDRHelpAbout;
+   static JPanel jpDRBottom = new JPanel(new GridLayout(1, 3));
+   static JPanel jpDRCenter;
+   static JPanel jpDRCenter1;
+   static JPanel jpDRCenter2;
+   static JPanel jpDRCenter3;
+   static JPanel jpDRCenter4;
+   static JButton jbDRCreateDDL = new JButton("Create DDL");
+   static JButton jbDRDefineTables = new JButton(DEFINE_TABLES);
+   static JButton jbDRBindRelation = new JButton("Bind/Unbind Relation");
+   static DefaultListModel dlmDRTablesRelations;
+   static DefaultListModel dlmDRTablesRelatedTo = new DefaultListModel();
+   static DefaultListModel dlmDRFieldsTablesRelations = new DefaultListModel();
+   static DefaultListModel dlmDRFieldsTablesRelatedTo = new DefaultListModel();
+   static JList jlDRTablesRelations;
+   static JList jlDRTablesRelatedTo = new JList(dlmDRTablesRelatedTo);
+   static JList jlDRFieldsTablesRelations = new JList(dlmDRFieldsTablesRelations);
+   static JList jlDRFieldsTablesRelatedTo = new JList(dlmDRFieldsTablesRelatedTo);
+   static JLabel jlabDRTablesRelations = new JLabel("Tables With Relations", SwingConstants.CENTER);
+   static JLabel jlabDRTablesRelatedTo = new JLabel("Related Tables", SwingConstants.CENTER);
+   static JLabel jlabDRFieldsTablesRelations = new JLabel("Fields in Tables with Relations", SwingConstants.CENTER);
+   static JLabel jlabDRFieldsTablesRelatedTo = new JLabel("Fields in Related Tables", SwingConstants.CENTER);
+   static JScrollPane jspDRTablesRelations = new JScrollPane(jlDRTablesRelations);
+   static JScrollPane jspDRTablesRelatedTo = new JScrollPane(jlDRTablesRelatedTo);
+   static JScrollPane jspDRFieldsTablesRelations = new JScrollPane(jlDRFieldsTablesRelations);
+   static JScrollPane jspDRFieldsTablesRelatedTo = new JScrollPane(jlDRFieldsTablesRelatedTo);
+   static JMenuBar jmbDRMenuBar = new JMenuBar();
+   static JMenu jmDRFile;
+   static JMenu jmDROptions;
+   static JMenu jmDRHelp;
+   static JMenuItem jmiDROpenEdge;
+   static JMenuItem jmiDROpenSave;
+   static JMenuItem jmiDRSave;
+   static JMenuItem jmiDRSaveAs;
+   static JMenuItem jmiDRExit;
+   static JMenuItem jmiDROptionsOutputLocation;
+   static JMenuItem jmiDROptionsShowProducts;
+   static JMenuItem jmiDRHelpAbout;
    
    public EdgeConvertGUI() {
       menuListener = new EdgeMenuListener();
@@ -454,7 +482,6 @@ public class EdgeConvertGUI {
       );
       jtfDTVarchar.setEditable(false);
       
-      jpDTCenterRight2 = new JPanel(new GridLayout(6, 1));
       jpDTCenterRight2.add(jbDTVarchar);
       jpDTCenterRight2.add(jtfDTVarchar);
       jpDTCenterRight2.add(jcheckDTPrimaryKey);
@@ -477,7 +504,6 @@ public class EdgeConvertGUI {
       jfDR.getContentPane().setLayout(new BorderLayout());
 
       //setup menubars and menus
-      jmbDRMenuBar = new JMenuBar();
       jfDR.setJMenuBar(jmbDRMenuBar);
       jmDRFile = new JMenu("File");
       jmDRFile.setMnemonic(KeyEvent.VK_F);
@@ -561,8 +587,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      dlmDRFieldsTablesRelations = new DefaultListModel();
-      jlDRFieldsTablesRelations = new JList(dlmDRFieldsTablesRelations);
       jlDRFieldsTablesRelations.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse)  {
@@ -583,8 +607,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      dlmDRTablesRelatedTo = new DefaultListModel();
-      jlDRTablesRelatedTo = new JList(dlmDRTablesRelatedTo);
       jlDRTablesRelatedTo.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse)  {
@@ -602,8 +624,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      dlmDRFieldsTablesRelatedTo = new DefaultListModel();
-      jlDRFieldsTablesRelatedTo = new JList(dlmDRFieldsTablesRelatedTo);
       jlDRFieldsTablesRelatedTo.addListSelectionListener(
          new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent lse)  {
@@ -619,14 +639,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      jspDRTablesRelations = new JScrollPane(jlDRTablesRelations);
-      jspDRFieldsTablesRelations = new JScrollPane(jlDRFieldsTablesRelations);
-      jspDRTablesRelatedTo = new JScrollPane(jlDRTablesRelatedTo);
-      jspDRFieldsTablesRelatedTo = new JScrollPane(jlDRFieldsTablesRelatedTo);
-      jlabDRTablesRelations = new JLabel("Tables With Relations", SwingConstants.CENTER);
-      jlabDRFieldsTablesRelations = new JLabel("Fields in Tables with Relations", SwingConstants.CENTER);
-      jlabDRTablesRelatedTo = new JLabel("Related Tables", SwingConstants.CENTER);
-      jlabDRFieldsTablesRelatedTo = new JLabel("Fields in Related Tables", SwingConstants.CENTER);
       jpDRCenter1.add(jlabDRTablesRelations, BorderLayout.NORTH);
       jpDRCenter2.add(jlabDRFieldsTablesRelations, BorderLayout.NORTH);
       jpDRCenter3.add(jlabDRTablesRelatedTo, BorderLayout.NORTH);
@@ -640,9 +652,7 @@ public class EdgeConvertGUI {
       jpDRCenter.add(jpDRCenter3);
       jpDRCenter.add(jpDRCenter4);
       jfDR.getContentPane().add(jpDRCenter, BorderLayout.CENTER);
-      jpDRBottom = new JPanel(new GridLayout(1, 3));
 
-      jbDRDefineTables = new JButton(DEFINE_TABLES);
       jbDRDefineTables.addActionListener(
          new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
@@ -655,7 +665,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      jbDRBindRelation = new JButton("Bind/Unbind Relation");
       jbDRBindRelation.setEnabled(false);
       jbDRBindRelation.addActionListener(
          new ActionListener() {
@@ -709,7 +718,6 @@ public class EdgeConvertGUI {
          }
       );
 
-      jbDRCreateDDL = new JButton("Create DDL");
       jbDRCreateDDL.setEnabled(false);
       jbDRCreateDDL.addActionListener(createDDLListener);
 
