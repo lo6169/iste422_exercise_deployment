@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EdgeConvertFileParser {
    private File parseFile;
@@ -21,6 +23,8 @@ public class EdgeConvertFileParser {
    public static final String EDGE_ID = "EDGE Diagram File"; //first line of .edg files should be this
    public static final String SAVE_ID = "EdgeConvert Save File"; //first line of save files should be this
    public static final String DELIM = "|";
+
+   static final Logger logger = LogManager.getLogger(EdgeConvertFileParser.class.getName());
    
    public EdgeConvertFileParser(File constructorFile) {
       numFigure = 0;
@@ -143,39 +147,40 @@ public class EdgeConvertFileParser {
       int table1Index = 0;
       int table2Index = 0;
       for (int cIndex = 0; cIndex < connectors.length; cIndex++) {
-         endPoint1 = connectors[cIndex].getEndPoint1();
-         endPoint2 = connectors[cIndex].getEndPoint2();
+         EdgeConnector connector = connectors[cIndex];
+         endPoint1 = connector.getEndPoint1();
+         endPoint2 = connector.getEndPoint2();
          fieldIndex = -1;
          for (int fIndex = 0; fIndex < fields.length; fIndex++) { //search fields array for endpoints
             if (endPoint1 == fields[fIndex].getNumFigure()) { //found endPoint1 in fields array
-               connectors[cIndex].setIsEP1Field(true); //set appropriate flag
+               connector.setIsEP1Field(true); //set appropriate flag
                fieldIndex = fIndex; //identify which element of the fields array that endPoint1 was found in
             }
             if (endPoint2 == fields[fIndex].getNumFigure()) { //found endPoint2 in fields array
-               connectors[cIndex].setIsEP2Field(true); //set appropriate flag
+               connector.setIsEP2Field(true); //set appropriate flag
                fieldIndex = fIndex; //identify which element of the fields array that endPoint2 was found in
             }
          }
          for (int tIndex = 0; tIndex < tables.length; tIndex++) { //search tables array for endpoints
             if (endPoint1 == tables[tIndex].getNumFigure()) { //found endPoint1 in tables array
-               connectors[cIndex].setIsEP1Table(true); //set appropriate flag
+               connector.setIsEP1Table(true); //set appropriate flag
                table1Index = tIndex; //identify which element of the tables array that endPoint1 was found in
             }
             if (endPoint2 == tables[tIndex].getNumFigure()) { //found endPoint1 in tables array
-               connectors[cIndex].setIsEP2Table(true); //set appropriate flag
+               connector.setIsEP2Table(true); //set appropriate flag
                table2Index = tIndex; //identify which element of the tables array that endPoint2 was found in
             }
          }
          
-         if (connectors[cIndex].getIsEP1Field() && connectors[cIndex].getIsEP2Field()) { //both endpoints are fields, implies lack of normalization
+         if (connector.getIsEP1Field() && connector.getIsEP2Field()) { //both endpoints are fields, implies lack of normalization
             JOptionPane.showMessageDialog(null, "The Edge Diagrammer file\n" + parseFile + "\ncontains composite attributes. Please resolve them and try again.");
             EdgeConvertGUI.setReadSuccess(false); //this tells GUI not to populate JList components
             break; //stop processing list of Connectors
          }
 
-         if (connectors[cIndex].getIsEP1Table() && connectors[cIndex].getIsEP2Table()) { //both endpoints are tables
-            if ((connectors[cIndex].getEndStyle1().indexOf("many") >= 0) &&
-                (connectors[cIndex].getEndStyle2().indexOf("many") >= 0)) { //the connector represents a many-many relationship, implies lack of normalization
+         if (connector.getIsEP1Table() && connector.getIsEP2Table()) { //both endpoints are tables
+            if ((connector.getEndStyle1().indexOf("many") >= 0) &&
+                (connector.getEndStyle2().indexOf("many") >= 0)) { //the connector represents a many-many relationship, implies lack of normalization
                JOptionPane.showMessageDialog(null, "There is a many-many relationship between tables\n\"" + tables[table1Index].getName() + "\" and \"" + tables[table2Index].getName() + "\"" + "\nPlease resolve this and try again.");
                EdgeConvertGUI.setReadSuccess(false); //this tells GUI not to populate JList components
                break; //stop processing list of Connectors
@@ -187,7 +192,7 @@ public class EdgeConvertFileParser {
          }
          
          if (fieldIndex >=0 && fields[fieldIndex].getTableID() == 0) { //field has not been assigned to a table yet
-            if (connectors[cIndex].getIsEP1Table()) { //endpoint1 is the table
+            if (connector.getIsEP1Table()) { //endpoint1 is the table
                tables[table1Index].addNativeField(fields[fieldIndex].getNumFigure()); //add to the appropriate table's field list
                fields[fieldIndex].setTableID(tables[table1Index].getNumFigure()); //tell the field what table it belongs to
             } else { //endpoint2 is the table
@@ -325,11 +330,11 @@ public class EdgeConvertFileParser {
          }
       } // try
       catch (FileNotFoundException fnfe) {
-         System.out.println("Cannot find \"" + inputFile.getName() + "\".");
+         logger.error("Cannot find \"%s\".", inputFile.getName());
          System.exit(0);
       } // catch FileNotFoundException
       catch (IOException ioe) {
-         System.out.println(ioe);
+         logger.error(ioe);
          System.exit(0);
       } // catch IOException
    } // openFile()
