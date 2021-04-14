@@ -27,8 +27,8 @@ public abstract class EdgeConvertCreateDDL {
       for (int i = 0; i < tables.length; i++) { //step through list of tables
          int numBound = 0; //initialize counter for number of bound tables
          int[] relatedFields = tables[i].getRelatedFieldsArray();
-         for (int j = 0; j < relatedFields.length; j++) { //step through related fields list
-            if (relatedFields[j] != 0) {
+         for (int relatedField : relatedFields) { //step through related fields list
+            if (relatedField != 0) {
                numBound++; //count the number of non-zero related fields
             }
          }
@@ -40,18 +40,18 @@ public abstract class EdgeConvertCreateDDL {
    }
    
    protected EdgeTable getTable(int numFigure) {
-      for (int tIndex = 0; tIndex < tables.length; tIndex++) {
-         if (numFigure == tables[tIndex].getNumFigure()) {
-            return tables[tIndex];
+      for (EdgeTable table : tables) {
+         if (numFigure == table.getNumFigure()) {
+            return table;
          }
       }
       return null;
    }
    
    protected EdgeField getField(int numFigure) {
-      for (int fIndex = 0; fIndex < fields.length; fIndex++) {
-         if (numFigure == fields[fIndex].getNumFigure()) {
-            return fields[fIndex];
+      for (EdgeField field : fields) {
+         if (numFigure == field.getNumFigure()) {
+            return field;
          }
       }
       return null;

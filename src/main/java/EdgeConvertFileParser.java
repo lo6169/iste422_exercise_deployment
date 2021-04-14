@@ -5,11 +5,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EdgeConvertFileParser {
-   private File parseFile;
+   private final File parseFile;
    private BufferedReader br;
-   private ArrayList<EdgeTable> alTables;
-   private ArrayList<EdgeField> alFields;
-   private ArrayList<EdgeConnector> alConnectors;
+   private final ArrayList<EdgeTable> alTables;
+   private final ArrayList<EdgeField> alFields;
+   private final ArrayList<EdgeConnector> alConnectors;
    private EdgeTable[] tables;
    private EdgeField[] fields;
    private EdgeConnector[] connectors;
@@ -143,11 +143,10 @@ public class EdgeConvertFileParser {
    private void resolveConnectors() { //Identify nature of Connector endpoints
       int endPoint1;
       int endPoint2;
-      int fieldIndex = 0;
+      int fieldIndex;
       int table1Index = 0;
       int table2Index = 0;
-      for (int cIndex = 0; cIndex < connectors.length; cIndex++) {
-         EdgeConnector connector = connectors[cIndex];
+      for (EdgeConnector connector : connectors) {
          endPoint1 = connector.getEndPoint1();
          endPoint2 = connector.getEndPoint2();
          fieldIndex = -1;
@@ -171,7 +170,7 @@ public class EdgeConvertFileParser {
                table2Index = tIndex; //identify which element of the tables array that endPoint2 was found in
             }
          }
-         
+
          if (connector.getIsEP1Field() && connector.getIsEP2Field()) { //both endpoints are fields, implies lack of normalization
             JOptionPane.showMessageDialog(null, "The Edge Diagrammer file\n" + parseFile + "\ncontains composite attributes. Please resolve them and try again.");
             EdgeConvertGUI.setReadSuccess(false); //this tells GUI not to populate JList components
@@ -179,8 +178,8 @@ public class EdgeConvertFileParser {
          }
 
          if (connector.getIsEP1Table() && connector.getIsEP2Table()) { //both endpoints are tables
-            if ((connector.getEndStyle1().indexOf("many") >= 0) &&
-                (connector.getEndStyle2().indexOf("many") >= 0)) { //the connector represents a many-many relationship, implies lack of normalization
+            if ((connector.getEndStyle1().contains("many")) &&
+              (connector.getEndStyle2().contains("many"))) { //the connector represents a many-many relationship, implies lack of normalization
                JOptionPane.showMessageDialog(null, "There is a many-many relationship between tables\n\"" + tables[table1Index].getName() + "\" and \"" + tables[table2Index].getName() + "\"" + "\nPlease resolve this and try again.");
                EdgeConvertGUI.setReadSuccess(false); //this tells GUI not to populate JList components
                break; //stop processing list of Connectors
@@ -190,8 +189,8 @@ public class EdgeConvertFileParser {
                continue; //next Connector
             }
          }
-         
-         if (fieldIndex >=0 && fields[fieldIndex].getTableID() == 0) { //field has not been assigned to a table yet
+
+         if (fieldIndex >= 0 && fields[fieldIndex].getTableID() == 0) { //field has not been assigned to a table yet
             if (connector.getIsEP1Table()) { //endpoint1 is the table
                tables[table1Index].addNativeField(fields[fieldIndex].getNumFigure()); //add to the appropriate table's field list
                fields[fieldIndex].setTableID(tables[table1Index].getNumFigure()); //tell the field what table it belongs to
@@ -199,7 +198,7 @@ public class EdgeConvertFileParser {
                tables[table2Index].addNativeField(fields[fieldIndex].getNumFigure()); //add to the appropriate table's field list
                fields[fieldIndex].setTableID(tables[table2Index].getNumFigure()); //tell the field what table it belongs to
             }
-         } else if (fieldIndex >=0) { //field has already been assigned to a table
+         } else if (fieldIndex >= 0) { //field has already been assigned to a table
             JOptionPane.showMessageDialog(null, "The attribute " + fields[fieldIndex].getName() + " is connected to multiple tables.\nPlease resolve this and try again.");
             EdgeConvertGUI.setReadSuccess(false); //this tells GUI not to populate JList components
             break; //stop processing list of Connectors
@@ -264,8 +263,8 @@ public class EdgeConvertFileParser {
          tempField.setFieldBound(Integer.parseInt(stField.nextToken()));
          tempField.setDataType(Integer.parseInt(stField.nextToken()));
          tempField.setVarcharValue(Integer.parseInt(stField.nextToken()));
-         tempField.setIsPrimaryKey(Boolean.valueOf(stField.nextToken()));//.booleanValue());
-         tempField.setDisallowNull(Boolean.valueOf(stField.nextToken()));//.booleanValue());
+         tempField.setIsPrimaryKey(Boolean.parseBoolean(stField.nextToken()));//.booleanValue());
+         tempField.setDisallowNull(Boolean.parseBoolean(stField.nextToken()));//.booleanValue());
          if (stField.hasMoreTokens()) { //Default Value may not be defined
             tempField.setDefaultValue(stField.nextToken());
          }
@@ -289,8 +288,7 @@ public class EdgeConvertFileParser {
    }
    
    private boolean isTableDup(String testTableName) {
-      for (int i = 0; i < alTables.size(); i++) {
-         EdgeTable tempTable = alTables.get(i);
+      for (EdgeTable tempTable : alTables) {
          // EdgeTable tempTable = (EdgeTable)alTables.get(i);
          if (tempTable.getName().equals(testTableName)) {
             return true;
@@ -330,7 +328,7 @@ public class EdgeConvertFileParser {
          }
       } // try
       catch (FileNotFoundException fnfe) {
-         logger.error("Cannot find \"%s\".", inputFile.getName());
+         logger.error("Cannot find \"" + inputFile.getName() + "\".");
          System.exit(0);
       } // catch FileNotFoundException
       catch (IOException ioe) {

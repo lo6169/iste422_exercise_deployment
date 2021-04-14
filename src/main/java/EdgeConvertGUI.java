@@ -963,24 +963,26 @@ public class EdgeConvertGUI {
       alProductNames.clear();
       alSubclasses.clear();
       try {
-         for (File resultFile : resultFiles) {
-            System.out.println(resultFile.getName());
-            if (!resultFile.getName().endsWith(".class")) {
-               continue; //ignore all files that are not .class files
-            }
-            resultClass = Class.forName(resultFile.getName().substring(0, resultFile.getName().lastIndexOf(".")));
-            if (resultClass.getSuperclass().getName().equals("EdgeConvertCreateDDL")) { //only interested in classes that extend EdgeConvertCreateDDL
-               if (parseFile == null && saveFile == null) {
-                  conResultClass = resultClass.getConstructor(paramTypesNull);
-                  objOutput = conResultClass.newInstance(null);
-               } else {
-                  conResultClass = resultClass.getConstructor(paramTypes);
-                  objOutput = conResultClass.newInstance(args);
+         if (resultFiles != null) {
+            for (File resultFile : resultFiles) {
+               System.out.println(resultFile.getName());
+               if (!resultFile.getName().endsWith(".class")) {
+                  continue; //ignore all files that are not .class files
                }
-               alSubclasses.add(objOutput);
-               Method getProductName = resultClass.getMethod("getProductName", null);
-               String productName = (String) getProductName.invoke(objOutput, null);
-               alProductNames.add(productName);
+               resultClass = Class.forName(resultFile.getName().substring(0, resultFile.getName().lastIndexOf(".")));
+               if (resultClass.getSuperclass().getName().equals("EdgeConvertCreateDDL")) { //only interested in classes that extend EdgeConvertCreateDDL
+                  if (parseFile == null && saveFile == null) {
+                     conResultClass = resultClass.getConstructor(paramTypesNull);
+                     objOutput = conResultClass.newInstance(null);
+                  } else {
+                     conResultClass = resultClass.getConstructor(paramTypes);
+                     objOutput = conResultClass.newInstance(args);
+                  }
+                  alSubclasses.add(objOutput);
+                  Method getProductName = resultClass.getMethod("getProductName", null);
+                  String productName = (String) getProductName.invoke(objOutput, null);
+                  alProductNames.add(productName);
+               }
             }
          }
       } catch (InstantiationException | IllegalAccessException |
@@ -988,8 +990,8 @@ public class EdgeConvertGUI {
          ie.printStackTrace();
       }
       if (alProductNames.size() > 0 && alSubclasses.size() > 0) { //do not recreate productName and objSubClasses arrays if the new path is empty of valid files
-         productNames = (String[])alProductNames.toArray(new String[alProductNames.size()]);
-         objSubclasses = (Object[])alSubclasses.toArray(new Object[alSubclasses.size()]);
+         productNames = alProductNames.toArray(new String[alProductNames.size()]);
+         objSubclasses = alSubclasses.toArray(new Object[alSubclasses.size()]);
       }
    }
    

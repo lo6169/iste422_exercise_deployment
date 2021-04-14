@@ -1,9 +1,4 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;   
-import javax.swing.event.*;
-import java.io.*;
-import java.util.*;
+import javax.swing.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,8 +31,8 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
 
       logger.debug("Database name is " + databaseName);
 
-      sb.append("CREATE DATABASE " + databaseName + ";\r\n");
-      sb.append("USE " + databaseName + ";\r\n");
+      sb.append("CREATE DATABASE ").append(databaseName).append(";\r\n");
+      sb.append("USE ").append(databaseName).append(";\r\n");
       for (int boundCount = 0; boundCount <= maxBound; boundCount++) {
          //process tables in order from least dependent (least number of bound tables) to most dependent
          for (int tableCount = 0; tableCount < numBoundTables.length; tableCount++) {
@@ -46,7 +41,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
 
                logger.debug("Outputting the current DDL table: " + tables[tableCount].getName());
 
-               sb.append("CREATE TABLE " + tables[tableCount].getName() + " (\r\n");
+               sb.append("CREATE TABLE ").append(tables[tableCount].getName()).append(" (\r\n");
 
                logger.debug("Appended CREATE TABLE " + tables[tableCount].getName() + " (\r\n");
 
@@ -61,9 +56,9 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
 
                   logger.debug("Grabbed current field: " + getField(nativeFields[nativeFieldCount]).getName());
 
-                  sb.append("\t" + currentField.getName() + " " + strDataType[currentField.getDataType()]);
+                  sb.append("\t").append(currentField.getName()).append(" ").append(strDataType[currentField.getDataType()]);
                   if (currentField.getDataType() == 0) { //varchar
-                     sb.append("(" + currentField.getVarcharValue() + ")");
+                     sb.append("(").append(currentField.getVarcharValue()).append(")");
                      logger.debug("Added Varchar value to string buffer.");
                      //append varchar length in () if data type is varchar
                   }
@@ -73,10 +68,10 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                   }
                   if (!currentField.getDefaultValue().equals("")) {
                      if (currentField.getDataType() == 1) { //boolean data type
-                        sb.append(" DEFAULT " + convertStrBooleanToInt(currentField.getDefaultValue()));
+                        sb.append(" DEFAULT ").append(convertStrBooleanToInt(currentField.getDefaultValue()));
                         logger.debug("Added Boolean default value to string buffer.");
                      } else { //any other data type
-                        sb.append(" DEFAULT " + currentField.getDefaultValue());
+                        sb.append(" DEFAULT ").append(currentField.getDefaultValue());
                         logger.debug("Added a non-boolean default value to string buffer.");
                      }
                   }
@@ -94,7 +89,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                   sb.append(",\r\n"); //end of field
                }
                if (numPrimaryKey > 0) { //table has primary key(s)
-                  sb.append("CONSTRAINT " + tables[tableCount].getName() + "_PK PRIMARY KEY (");
+                  sb.append("CONSTRAINT ").append(tables[tableCount].getName()).append("_PK PRIMARY KEY (");
                   for (int i = 0; i < primaryKey.length; i++) {
                      if (primaryKey[i]) {
                         sb.append(getField(nativeFields[i]).getName());
@@ -115,9 +110,11 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                   int currentFK = 1;
                   for (int i = 0; i < relatedFields.length; i++) {
                      if (relatedFields[i] != 0) {
-                        sb.append("CONSTRAINT " + tables[tableCount].getName() + "_FK" + currentFK +
-                                  " FOREIGN KEY(" + getField(nativeFields[i]).getName() + ") REFERENCES " +
-                                  getTable(getField(nativeFields[i]).getTableBound()).getName() + "(" + getField(relatedFields[i]).getName() + ")");
+                        sb.append("CONSTRAINT ").append(tables[tableCount].getName())
+                          .append("_FK").append(currentFK).append(" FOREIGN KEY(")
+                          .append(getField(nativeFields[i]).getName()).append(") REFERENCES ")
+                          .append(getTable(getField(nativeFields[i]).getTableBound()).getName())
+                          .append("(").append(getField(relatedFields[i]).getName()).append(")");
                         if (currentFK < numForeignKey) {
                            sb.append(",\r\n");
                         }
