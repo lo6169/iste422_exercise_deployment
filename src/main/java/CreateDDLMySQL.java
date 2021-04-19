@@ -12,7 +12,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
 
    public CreateDDLMySQL(EdgeTable[] inputTables, EdgeField[] inputFields) {
       super(inputTables, inputFields);
-      logger.debug("CreateDDLMySQL.constructor, super called with fields: " + inputTables + inputFields);
+      logger.debug("CreateDDLMySQL.constructor, super called with fields: %s, %s ", inputTables, inputFields);
       sb = new StringBuffer();
    } //CreateDDLMySQL(EdgeTable[], EdgeField[])
    
@@ -29,7 +29,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
 
       databaseName = generateDatabaseName();
 
-      logger.debug("Database name is " + databaseName);
+      logger.debug("Database name is %s", databaseName);
 
       sb.append("CREATE DATABASE ").append(databaseName).append(";\r\n");
       sb.append("USE ").append(databaseName).append(";\r\n");
@@ -39,11 +39,11 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
             //step through list of tables
             if (numBoundTables[tableCount] == boundCount) { //
 
-               logger.debug("Outputting the current DDL table: " + tables[tableCount].getName());
+               logger.debug("Outputting the current DDL table: %s", tables[tableCount].getName());
 
                sb.append("CREATE TABLE ").append(tables[tableCount].getName()).append(" (\r\n");
 
-               logger.debug("Appended CREATE TABLE " + tables[tableCount].getName() + " (\r\n");
+               logger.debug("Appended CREATE TABLE %s (\r%n", tables[tableCount].getName());
 
                int[] nativeFields = tables[tableCount].getNativeFieldsArray();
                int[] relatedFields = tables[tableCount].getRelatedFieldsArray();
@@ -152,7 +152,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                        null,
                        null,
                        dbNameDefault);
-         logger.info("Inputted database name: " + String.format("Databse name: %s", databaseName));
+         logger.info("Inputted database name: %s", databaseName);
          if (databaseName == null) {
             EdgeConvertGUI.setReadSuccess(false);
             return "";

@@ -12,10 +12,10 @@ public class EdgeConnector {
    private boolean isEP2Field;
    private boolean isEP1Table;
    private boolean isEP2Table;
-   public static Logger logger = LogManager.getLogger(EdgeConnector.class.getName());
+   private static Logger logger = LogManager.getLogger(EdgeConnector.class.getName());
       
    public EdgeConnector(String inputString) {
-      logger.debug("EdgeConnector constructor called with the input of " + inputString);
+      logger.debug("EdgeConnector constructor called with the input of %s", inputString);
       StringTokenizer st = new StringTokenizer(inputString, EdgeConvertFileParser.DELIM);
       numConnector = Integer.parseInt(st.nextToken());
       endPoint1 = Integer.parseInt(st.nextToken());
@@ -73,22 +73,22 @@ public class EdgeConnector {
    }
 
    public void setIsEP1Field(boolean value) {
-      logger.debug("setIsEP1Field has been called with a value of " + value);
+      logger.debug("setIsEP1Field has been called with a value of %s", value);
       isEP1Field = value;
    }
    
    public void setIsEP2Field(boolean value) {
-      logger.debug("setIsEP2Field has been called with a value of " + value);
+      logger.debug("setIsEP2Field has been called with a value of %s", value);
       isEP2Field = value;
    }
 
    public void setIsEP1Table(boolean value) {
-      logger.debug("setIsEP1Table has been called with a value of " + value);
+      logger.debug("setIsEP1Table has been called with a value of %s", value);
       isEP1Table = value;
    }
 
    public void setIsEP2Table(boolean value) {
-      logger.debug("setIsEP2Table has been called with a value of " + value);
+      logger.debug("setIsEP2Table has been called with a value of %s", value);
       isEP2Table = value;
    }
 }

@@ -7,13 +7,13 @@ public abstract class EdgeConvertCreateDDL {
    protected StringBuffer sb;
    protected int selected;
    
-   public EdgeConvertCreateDDL(EdgeTable[] tables, EdgeField[] fields) {
+   protected EdgeConvertCreateDDL(EdgeTable[] tables, EdgeField[] fields) {
       this.tables = tables;
       this.fields = fields;
       initialize();
    } //EdgeConvertCreateDDL(EdgeTable[], EdgeField[])
    
-   public EdgeConvertCreateDDL() {
+   protected EdgeConvertCreateDDL() {
       // default constructor with empty arg list for to allow output
       // dir to be set before there are table and field objects
       

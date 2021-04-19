@@ -17,7 +17,7 @@ public class EdgeField {
    public static Logger logger = LogManager.getLogger(EdgeField.class.getName());
    
    public EdgeField(String inputString) {
-      logger.debug("EdgeField constructor called with the input of " + inputString);
+      logger.debug("EdgeField constructor called with the input of %s", inputString);
       StringTokenizer st = new StringTokenizer(inputString, EdgeConvertFileParser.DELIM);
       numFigure = Integer.parseInt(st.nextToken());
       name = st.nextToken();
@@ -47,7 +47,7 @@ public class EdgeField {
    }
    
    public void setTableID(int value) {
-      logger.debug("setTableID has been called with a value of " + value);
+      logger.debug("setTableID has been called with a value of %s", value);
       tableID = value;
    }
    
@@ -57,7 +57,7 @@ public class EdgeField {
    }
    
    public void setTableBound(int value) {
-      logger.debug("setTableBound has been called with a value of " + value);
+      logger.debug("setTableBound has been called with a value of %s", value);
       tableBound = value;
    }
 
@@ -67,7 +67,7 @@ public class EdgeField {
    }
    
    public void setFieldBound(int value) {
-      logger.debug("setFieldBound has been called with a value of " + value);
+      logger.debug("setFieldBound has been called with a value of %s", value);
       fieldBound = value;
    }
 
@@ -77,7 +77,7 @@ public class EdgeField {
    }
    
    public void setDisallowNull(boolean value) {
-      logger.debug("setDisallowNull has been called with a value of " + value);
+      logger.debug("setDisallowNull has been called with a value of %s", value);
       disallowNull = value;
    }
    
@@ -87,7 +87,7 @@ public class EdgeField {
    }
    
    public void setIsPrimaryKey(boolean value) {
-      logger.debug("setIsPrimaryKey has been called with a value of " + value);
+      logger.debug("setIsPrimaryKey has been called with a value of %s", value);
       isPrimaryKey = value;
    }
    
@@ -97,7 +97,7 @@ public class EdgeField {
    }
    
    public void setDefaultValue(String value) {
-      logger.debug("setDefaultValue has been called with a value of " + value);
+      logger.debug("setDefaultValue has been called with a value of %s", value);
       defaultValue = value;
    }
    
@@ -107,7 +107,7 @@ public class EdgeField {
    }
    
    public void setVarcharValue(int value) {
-      logger.debug("setVarcharValue has been called with a value of " + value);
+      logger.debug("setVarcharValue has been called with a value of %s", value);
       if (value > 0) {
          varcharValue = value;
       }
@@ -122,7 +122,7 @@ public class EdgeField {
    }
    
    public void setDataType(int value) {
-      logger.debug("setDataType has been called with a value of " + value);
+      logger.debug("setDataType has been called with a value of %s", value);
       if (value >= 0 && value < strDataType.length) {
          dataType = value;
       }

@@ -11,7 +11,7 @@ public class EdgeTable {
    public static Logger logger = LogManager.getLogger(EdgeTable.class.getName());
    
    public EdgeTable(String inputString) {
-      logger.debug("EdgeTable constructor called with the input of " + inputString);
+      logger.debug("EdgeTable constructor called with the input of %s", inputString);
       StringTokenizer st = new StringTokenizer(inputString, EdgeConvertFileParser.DELIM);
       numFigure = Integer.parseInt(st.nextToken());
       name = st.nextToken();
