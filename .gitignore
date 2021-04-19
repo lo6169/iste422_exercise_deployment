@@ -33,5 +33,6 @@ target
 .classpath
 .project
 .gradle/
+.idea/
 .settings/
 bin/
