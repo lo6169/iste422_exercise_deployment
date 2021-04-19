@@ -873,7 +873,7 @@ public class EdgeConvertGUI {
          try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(saveFile, false)));
             //write the identification line
-            pw.println(EdgeConvertFileParser.SAVE_ID);
+            pw.println(SaveFileParser.SAVE_ID);
             //write the tables 
             pw.println("#Tables#");
             for (EdgeTable table : tables) {
@@ -1153,7 +1153,7 @@ public class EdgeConvertGUI {
             returnVal = jfcEdge.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                parseFile = jfcEdge.getSelectedFile();
-               ecfp = new EdgeConvertFileParser(parseFile);
+               ecfp = new EdgeFileParser(parseFile);
                tables = ecfp.getEdgeTables();
                for (EdgeTable table : tables) {
                   table.makeArrays();
@@ -1192,7 +1192,7 @@ public class EdgeConvertGUI {
             returnVal = jfcEdge.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                saveFile = jfcEdge.getSelectedFile();
-               ecfp = new EdgeConvertFileParser(saveFile);
+               ecfp = new SaveFileParser(saveFile);
                tables = ecfp.getEdgeTables();
                fields = ecfp.getEdgeFields();
 //               ecfp = null;

@@ -8,7 +8,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
    //this array is for determining how MySQL refers to datatypes
    protected String[] strDataType = {"VARCHAR", "BOOL", "INT", "DOUBLE"};
    protected StringBuffer sb;
-   public static Logger logger = LogManager.getLogger(CreateDDLMySQL.class.getName());
+   private static Logger logger = LogManager.getLogger(CreateDDLMySQL.class.getName());
 
    public CreateDDLMySQL(EdgeTable[] inputTables, EdgeField[] inputFields) {
       super(inputTables, inputFields);
@@ -54,7 +54,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                   //print out the fields
                   EdgeField currentField = getField(nativeFields[nativeFieldCount]);
 
-                  logger.debug("Grabbed current field: " + getField(nativeFields[nativeFieldCount]).getName());
+                  logger.debug("Grabbed current field: %s", getField(nativeFields[nativeFieldCount]).getName());
 
                   sb.append("\t").append(currentField.getName()).append(" ").append(strDataType[currentField.getDataType()]);
                   if (currentField.getDataType() == 0) { //varchar
@@ -88,6 +88,7 @@ public class CreateDDLMySQL extends EdgeConvertCreateDDL {
                   }
                   sb.append(",\r\n"); //end of field
                }
+               sb.deleteCharAt(sb.length() - 3);
                if (numPrimaryKey > 0) { //table has primary key(s)
                   sb.append("CONSTRAINT ").append(tables[tableCount].getName()).append("_PK PRIMARY KEY (");
                   for (int i = 0; i < primaryKey.length; i++) {
