@@ -22,3 +22,9 @@ task run(type: JavaExec) {
 	classpath = sourceSets.main.runtimeClasspath
 }
 
+jar {
+	manifest {
+		attributes(
+				"Main-Class": "RunEdgeConvert")
+	}
+}
